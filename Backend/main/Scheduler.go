@@ -8,7 +8,7 @@ import (
 var concreteBarMachine = BarMachine{Id:"01"}
 
 func BarHandler(c *gin.Context) {
-	c.Writer.Write([]byte("BarMachine: " + concreteBarMachine.Id))
+	c.Writer.Write([]byte("Hello " + " BarMachine: " + concreteBarMachine.Id))
 }
 
 func main() {
@@ -18,7 +18,6 @@ func main() {
 
 	router.GET("/login", loginHandler)
 	router.GET("/auth", authHandler)
-	router.GET("/Bar", BarHandler)
 
 	router.Run("127.0.0.1:9090")
 }
