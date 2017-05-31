@@ -11,7 +11,7 @@ type BarMachine struct {
 func NewBarMachine(id string) *BarMachine {
 	b := BarMachine{Id:id}
 	b.BarSession = session{}
-	return b
+	return &b
 }
 
 
