@@ -10,5 +10,5 @@ RUN:
 $ ionic cordova platform add ios
 $ ionic cordova run ios
 OR:
-$ ionic serve
+$ ionic serve (for browser)
 
