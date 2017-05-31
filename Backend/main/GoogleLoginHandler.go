@@ -22,7 +22,7 @@ type Credentials struct {
 }
 
 // User is a retrieved and authentiacted user.
-type User struct {
+type UserInfo struct {
 	Sub string `json:"sub"`
 	Name string `json:"name"`
 	GivenName string `json:"given_name"`
