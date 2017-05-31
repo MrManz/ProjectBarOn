@@ -3,12 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"sync"
 )
-
-type session struct {
-	sync.RWMutex
-}
 
 var concreteBarMachine = BarMachine{Id:"01"}
 
