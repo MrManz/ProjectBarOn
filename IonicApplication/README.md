@@ -6,9 +6,6 @@ $ cd IonicApplication
 $ ionic start to load node_modules
 
 
-
-
-
 RUN:
 $ ionic cordova platform add ios
 $ ionic cordova run ios
