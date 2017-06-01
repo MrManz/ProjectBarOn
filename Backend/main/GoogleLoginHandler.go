@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
+	"path/filepath"
 )
 
 // Credentials which stores google ids.
@@ -46,7 +47,8 @@ func randToken() string {
 }
 
 func init() {
-	file, err := ioutil.ReadFile("./client_id.json")
+	absPath, _ := filepath.Abs("main/client_id.json")
+	file, err := ioutil.ReadFile(absPath)
 	if err != nil {
 		log.Printf("File error: %v\n", err)
 		os.Exit(1)
