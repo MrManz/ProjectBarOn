@@ -9,9 +9,10 @@ import (
 	"strconv"
 )
 //Middleware dient zur Überprüfung des Authorization Headers
-func authMiddleware(next http.Handler) http.Handler {
+//Damit ein Request durch die Middleware kommt, muss der Authorization Header den Token von Google Sign In enthalten
+func authMiddleware(next AuthHandler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//get Token
+		//get Header
 		token:=r.Header.Get("Authorization")
 		//ist Header gesetzt?
 		if(token == ""){
@@ -22,7 +23,6 @@ func authMiddleware(next http.Handler) http.Handler {
 		}
 		//Token an Google senden
 		resp, err := http.Get("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token="+token)
-		fmt.Println("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token="+token)
 		if err != nil {
 			// Abbruch
 			w.WriteHeader(http.StatusUnauthorized)
@@ -61,7 +61,6 @@ func authMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		//zeitstempel prüfen
-		fmt.Println(time.Now().Unix())
 		timestamp, err := strconv.ParseInt(token_data["exp"], 10, 32)
 		if(err != nil){
 			w.WriteHeader(http.StatusUnauthorized)
@@ -73,18 +72,9 @@ func authMiddleware(next http.Handler) http.Handler {
 			fmt.Println("Token ist abgelaufen")
 			return
 		}
-		//Alle Daten in den Header setzen
-		r.Header.Set("email", token_data["email"])
-		r.Header.Set("userId", token_data["sub"])
-		r.Header.Set("given_name", token_data["given_name"])
-		r.Header.Set("family_name", token_data["family_name"])
+		//Alle Daten übergeben
+		next.setTokenData(token_data)
 		//Handler aufrufen
 		next.ServeHTTP(w, r)
 	})
-}
-
-//Header davor Löschen, um zu vermeiden dass er schon gesetzt ist
-func setHeaderSecure(header *http.Header,key string, value string)  {
-	header.Del(key)
-	header.Add(key,value)
 }
