@@ -99,6 +99,7 @@ export class HomePage {
 
   setSigninStatus() {
     var user = that.GoogleAuth.currentUser.get();
+    console.log(user);
     var isAuthorized = user.hasGrantedScopes(that.SCOPE);
     if (isAuthorized) {
       $('#sign-in-or-out-button').html('Sign out');
