@@ -2,17 +2,15 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <title>Ionic App</title>
+  <title>BarOn</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
-  <script src="assets/libs/api.js"></script>
-
 
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
-
+  
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
 
@@ -21,14 +19,11 @@
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('service worker installed'))
-        .catch(err => console.error('Error', err));
+        .catch(err => console.log('Error', err));
     }
   </script>-->
 
   <link href="build/main.css" rel="stylesheet">
-  <meta name="google-signin-scope" content="profile email">
-  <meta name="google-signin-client_id" content="839090909377-3ng2immnrb7i0ukkmiqm250vkankfb39.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </head>
 <body>
@@ -41,24 +36,6 @@
 
   <!-- The bundle js is generated during the build process -->
   <script src="build/main.js"></script>
-
-  <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-  <script>
-    function onSignIn(googleUser) {
-      // Useful data for your client-side scripts:
-      var profile = googleUser.getBasicProfile();
-      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-      console.log('Full Name: ' + profile.getName());
-      console.log('Given Name: ' + profile.getGivenName());
-      console.log('Family Name: ' + profile.getFamilyName());
-      console.log("Image URL: " + profile.getImageUrl());
-      console.log("Email: " + profile.getEmail());
-
-      // The ID token you need to pass to your backend:
-      var id_token = googleUser.getAuthResponse().id_token;
-      console.log("ID Token: " + id_token);
-    };
-  </script>
 
 </body>
 </html>
