@@ -1,23 +1,18 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/contrib/sessions"
+	"net/http"
 )
 
-var concreteBarMachine = BarMachine{Id:"01"}
-
-func BarHandler(c *gin.Context) {
-	c.Writer.Write([]byte("Hello " + " BarMachine: " + concreteBarMachine.Id))
-}
-
 func main() {
-
-	router := gin.Default()
-	router.Use(sessions.Sessions("goquestsession", store))
-
-	router.GET("/login", loginHandler)
-	router.GET("/auth", authHandler)
-
-	router.Run("127.0.0.1:9090")
+	//Testrequest: GET localhost:8080/beispiel
+	//Header: Authorization=HIER TOKEN EINFÜGEN
+	http.Handle("/beispiel", authMiddleware(CreateBeispielHandler()))
+	db_factory :=Create_db_connector_factory()
+	db_con:=db_factory.make("mock")
+	orderHander:=CreateOrderHandler(db_con)
+	http.Handle("/order", authMiddleware(orderHander))
+	amountHandler:=CreateGetAmountHandler(db_con)
+	http.Handle("/getamount", authMiddleware(amountHandler))
+	http.ListenAndServe(":8080", nil)
 }
