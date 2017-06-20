@@ -11,6 +11,7 @@ cd platforms/android
 ??? keytool -genkey -v -keystore BarOn.keystore -alias BarOn -keyalg RSA -keysize 2048 -validity 10000
 
 Plugins:
+cd IonicApplication
 cordova plugin add cordova-plugin-googleplus --variable REVERSED_CLIENT_ID=com.googleusercontent.apps.920043719912-b9pam9s4ak2g3
 f3elv421hk5d2jqhmjg
 npm install ionic-native --save
