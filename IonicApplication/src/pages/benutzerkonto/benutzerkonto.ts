@@ -40,7 +40,7 @@ export class BenutzerkontoPage {
             };
             resolve(user)
           }, function (error) {
-            reject(user);
+            reject(error);
           });
       }
     )
