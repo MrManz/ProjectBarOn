@@ -19,10 +19,12 @@ npm install --save @types/gapi
 npm install --save @types/gapi.auth2
 npm install --save @types/jquery
 npm install --save jquery
+ionic cordova plugin add cordova-plugin-nativestorage
 
 RUN:
 $ ionic cordova platform add ios
 $ ionic cordova run ios
 OR:
-$ ionic serve (for browser)
+$ ionic cordova platform add browser
+$ ionic cordova run browser (for browser) (ACHTUNG: Third-Party cookies müssen erlaubt werden oder evtl: [*.]accounts.google.com whitelist hinzufügen)
 

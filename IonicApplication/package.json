@@ -28,9 +28,11 @@
         "@types/gapi.auth2": "0.0.39",
         "@types/jquery": "^2.0.46",
         "cordova-android": "^6.2.3",
+        "cordova-browser": "^4.1.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-googleplus": "^5.1.1",
+        "cordova-plugin-nativestorage": "^2.2.2",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.2",
         "cordova-plugin-whitelist": "^1.3.1",
@@ -64,10 +66,12 @@
             "ionic-plugin-keyboard": {},
             "cordova-plugin-googleplus": {
                 "REVERSED_CLIENT_ID": "com.googleusercontent.apps.920043719912-b9pam9s4ak2g3f3elv421hk5d2jqhmjg"
-            }
+            },
+            "cordova-plugin-nativestorage": {}
         },
         "platforms": [
-            "android"
+            "android",
+            "browser"
         ]
     }
 }

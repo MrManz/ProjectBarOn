@@ -13,7 +13,7 @@ export class LoginPage {
   isApp: boolean;
   SCOPE = 'profile';
   GoogleAuth: any;
-  loading
+  loading;
   // this tells the tabs component which Pages
   // should be each tab's root Page
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public platform: Platform) {
@@ -45,7 +45,8 @@ export class LoginPage {
           NativeStorage.setItem('user', {
             name: user.displayName,
             email: user.email,
-            picture: user.imageUrl
+            picture: user.imageUrl,
+            token: user.id_token
           })
             .then(function () {
               //nav.push(UserPage);
@@ -71,10 +72,18 @@ export class LoginPage {
       that.GoogleAuth = gapi.auth2.getAuthInstance();
       that.GoogleAuth.signIn().then(function () {
         var user = that.GoogleAuth.currentUser.get();
-        console.log(user.getBasicProfile().getEmail());
+        var userProfile = user.getBasicProfile();
+
+        NativeStorage.setItem('user', {
+          name: userProfile.getName(),
+          email: userProfile.getEmail(),
+          picture: userProfile.getImageUrl(),
+          token: user.getAuthResponse().id_token
+        });
         that.navCtrl.push(TabsControllerPage);
         that.loading.dismiss();
       });
+
       //if (!params) params = {};
     });
   }
