@@ -8,11 +8,14 @@ import { LoginPage } from '../login/login';
   templateUrl: 'benutzerkonto.html'
 })
 export class BenutzerkontoPage {
-
+  userPremise;
   // this tells the tabs component which Pages
   // should be each tab's root Page
   constructor(public navCtrl: NavController) {
     this.readUserData();
+    this.userPremise.then(function (user) {
+      console.log(user);
+    })
   }
   goToLogin(params){
     if (!params) params = {};
@@ -24,7 +27,7 @@ export class BenutzerkontoPage {
     this.navCtrl.push(BenutzerkontoPage);
   }
   readUserData(){
-    let p1 = new Promise(
+    this.userPremise = new Promise(
       (resolve,reject) => {
         var user;
         NativeStorage.getItem('user')
@@ -37,12 +40,9 @@ export class BenutzerkontoPage {
             };
             resolve(user)
           }, function (error) {
-            return user;
+            reject(user);
           });
       }
     )
-    p1.then(function (user) {
-       console.log(user);
-    })
   }
 }
