@@ -14,5 +14,7 @@ func main() {
 	http.Handle("/order", authMiddleware(orderHander))
 	amountHandler:=CreateGetAmountHandler(db_con)
 	http.Handle("/getamount", authMiddleware(amountHandler))
+	bottlesHandler:=CreateBottlesHandler(db_con)
+	http.Handle("/getbottles", bottlesHandler)
 	http.ListenAndServe(":8080", nil)
 }
