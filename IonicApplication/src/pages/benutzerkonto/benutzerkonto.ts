@@ -1,34 +1,46 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { NativeStorage } from 'ionic-native';
-import { LoginPage } from '../login/login';
-
+import {Component, ViewChild} from '@angular/core';
+import {Item, NavController} from 'ionic-angular';
+import {NativeStorage} from 'ionic-native';
+import {LoginPage} from '../login/login';
+//import $ from "jquery";
+var that;
 @Component({
   selector: 'page-benutzerkonto',
   templateUrl: 'benutzerkonto.html'
 })
 export class BenutzerkontoPage {
   userPremise;
+  user: any;
+  @ViewChild('AccountListItem')  AccountListItem: Item;
   // this tells the tabs component which Pages
   // should be each tab's root Page
   constructor(public navCtrl: NavController) {
+    that = this;
     this.readUserData();
     this.userPremise.then(function (user) {
-      console.log(user);
+      that.user = user;
     })
   }
-  goToLogin(params){
+  //Remove when unused
+  ngAfterViewInit() {
+    console.log(this.AccountListItem);
+  }
+
+  goToLogin(params) {
     if (!params) params = {};
     //workaround better way to do !!!
     location.reload();
     this.navCtrl.push(LoginPage);
-  }goToBenutzerkonto(params){
+  }
+
+  goToBenutzerkonto(params) {
     if (!params) params = {};
     this.navCtrl.push(BenutzerkontoPage);
   }
-  readUserData(){
+
+  readUserData() {
     this.userPremise = new Promise(
-      (resolve,reject) => {
+      (resolve, reject) => {
         var user;
         NativeStorage.getItem('user')
           .then(function (data) {

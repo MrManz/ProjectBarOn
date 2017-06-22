@@ -32,7 +32,6 @@ export class LoginPage {
   goToBenutzerkonto(params) {
 
     if (this.isApp) {
-      let nav = this.navCtrl;
       this.loading.present();
       GooglePlus.login({
         'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
