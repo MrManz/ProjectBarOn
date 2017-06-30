@@ -9,10 +9,14 @@
   <ion-list id="benutzerkonto-list2">
     <ion-item color="dark" id="benutzerkonto-list-item1">
       <ion-avatar item-left #AccountListItemAvatar>
-        <img  src={{user.picture}}/>
+        <img />
+      </ion-avatar>
+      <h2>TEST</h2>
+      <h3>HALLO</h3>
+        <!--        <img  src={{user.picture}}/>
       </ion-avatar>
       <h2>{{user.name}}</h2>
-      <h3>{{user.email}}</h3>
+      <h3>{{user.email}}</h3> -->
     </ion-item>
     <ion-item-sliding>
       <ion-item class="isclickable" color="dark" id="benutzerkonto-list-item2">
@@ -23,7 +27,7 @@
         <button ion-button color="positive"></button>
       </ion-item-options>
     </ion-item-sliding>
-    <ion-item class="isclickable" color="dark" (click)="goToLogin()" id="benutzerkonto-list-item3">
+    <ion-item class="isclickable" color="dark" (click)="logout()" id="benutzerkonto-list-item3">
       <ion-icon name="log-out" item-left></ion-icon>
       Abmelden
     </ion-item>

@@ -9,6 +9,7 @@ import { RezeptAuswHlenPage } from '../pages/rezept-ausw-hlen/rezept-ausw-hlen';
 import { BestellungenPage } from '../pages/bestellungen/bestellungen';
 import { TabsControllerPage } from '../pages/tabs-controller/tabs-controller';
 import { LoginPage } from '../pages/login/login';
+import { LoginModalPage } from '../pages/login-modal/login-modal';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -23,7 +24,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RezeptAuswHlenPage,
     BestellungenPage,
     TabsControllerPage,
-    LoginPage
+    LoginPage,
+    LoginModalPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RezeptAuswHlenPage,
     BestellungenPage,
     TabsControllerPage,
-    LoginPage
+    LoginPage,
+    LoginModalPage
   ],
   providers: [
     StatusBar,
