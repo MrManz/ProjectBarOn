@@ -1,7 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {Item, NavController, ModalController} from 'ionic-angular';
 import {NativeStorage} from 'ionic-native';
-import {LoginPage} from '../login/login';
 import {LoginModalPage} from '../login-modal/login-modal';
 //import $ from "jquery";
 var that;
@@ -11,7 +10,12 @@ var that;
 })
 export class BenutzerkontoPage {
   userPremise;
-  user: any;
+  user = {
+    name: "",
+    email: "",
+    picture: "",
+    token: ""
+  };
   @ViewChild('AccountListItem') AccountListItem: Item;
   // this tells the tabs component which Pages
   // should be each tab's root Page
@@ -36,8 +40,13 @@ export class BenutzerkontoPage {
     if (!params) params = {};
     //workaround better way to do !!!
     NativeStorage.remove('user');
-    this.user = null;
     this.openLoginModal();
+    this.user = {
+      name: "",
+      email: "",
+      picture: "",
+      token: ""
+    };
   }
 
   goToBenutzerkonto(params) {
