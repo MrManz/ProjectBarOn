@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {Item, NavController, ModalController} from 'ionic-angular';
 import {NativeStorage} from 'ionic-native';
 import {LoginModalPage} from '../login-modal/login-modal';
+import { GoogleService } from '../../app/google.service';
 //import $ from "jquery";
 var that;
 @Component({
@@ -19,7 +20,7 @@ export class BenutzerkontoPage {
   @ViewChild('AccountListItem') AccountListItem: Item;
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController,  private googleService: GoogleService) {
     that = this;
     this.readUserData();
     this.userPremise.then(function (user) {
@@ -47,6 +48,7 @@ export class BenutzerkontoPage {
       picture: "",
       token: ""
     };
+    this.googleService.googleSignOut();
   }
 
   goToBenutzerkonto(params) {

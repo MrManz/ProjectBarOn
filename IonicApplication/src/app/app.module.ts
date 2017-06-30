@@ -9,6 +9,7 @@ import { RezeptAuswHlenPage } from '../pages/rezept-ausw-hlen/rezept-ausw-hlen';
 import { BestellungenPage } from '../pages/bestellungen/bestellungen';
 import { TabsControllerPage } from '../pages/tabs-controller/tabs-controller';
 import { LoginModalPage } from '../pages/login-modal/login-modal';
+import { GoogleService } from './google.service';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -43,6 +44,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    GoogleService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
