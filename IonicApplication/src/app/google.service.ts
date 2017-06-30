@@ -76,6 +76,7 @@ googlePromise;
 
   public googleSignOut(){
     if (this.isApp) {
+      GooglePlus.logout();
       console.log(this.isApp);
     } else {
       this.GoogleAuth.signOut();
