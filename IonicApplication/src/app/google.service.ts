@@ -21,7 +21,7 @@ googlePromise;
   }
 
   public googleSignIn() {
-    this.googlePromise = new Promise(
+    return new Promise(
       (resolve, reject) => {
         if (this.isApp) {
           GooglePlus.login({
@@ -48,7 +48,7 @@ googlePromise;
             });
         } else {
           gapi.load('client:auth2', this.initClient);
-          //resolve();
+          resolve();
         }
       });
   }

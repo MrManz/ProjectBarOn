@@ -14,6 +14,7 @@ import { GoogleService } from './google.service';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { BackendServiceProvider } from '../providers/backend-service/backend-service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     StatusBar,
     SplashScreen,
     GoogleService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    BackendServiceProvider
   ]
 })
 export class AppModule {}
