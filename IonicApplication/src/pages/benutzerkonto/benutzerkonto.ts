@@ -37,6 +37,7 @@ export class BenutzerkontoPage {
     //workaround better way to do !!!
     NativeStorage.remove('user');
     this.user = null;
+    this.openLoginModal();
   }
 
   goToBenutzerkonto(params) {
