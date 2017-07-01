@@ -1,15 +1,23 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
+/*	"net/http"
 	"os"
 	"io/ioutil"
 	"fmt"
 	"encoding/json"
-	"path/filepath"
+	"path/filepath"*/
 )
 
 func main() {
+
+	control := db_controller{}
+	control.CreateDB()
+
+	p := control.QueryPerson("jamesbond@BarOn.com")
+	fmt.Println(p)
+/*
 	absPath, _ := filepath.Abs("main/config.json")
 	file, e := ioutil.ReadFile(absPath)
 	if e != nil {
@@ -29,5 +37,5 @@ func main() {
 	http.Handle("/getamount", authMiddleware(amountHandler))
 	bottlesHandler:=CreateBottlesHandler(db_con)
 	http.Handle("/getbottles", bottlesHandler)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", nil)*/
 }

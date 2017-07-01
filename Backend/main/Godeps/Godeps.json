@@ -4,112 +4,43 @@
 	"GodepVersion": "v79",
 	"Deps": [
 		{
-			"ImportPath": "cloud.google.com/go/compute/metadata",
-			"Comment": "v0.7.0-174-gc5613c5",
-			"Rev": "c5613c5ec734393db859ada71638d6fba0629d63"
+			"ImportPath": "github.com/go-bongo/bongo",
+			"Comment": "v0.10.4-18-gb7a1380",
+			"Rev": "b7a1380f4885ba5672a6d62b1ec453129d11a017"
 		},
 		{
-			"ImportPath": "github.com/boj/redistore",
-			"Comment": "v1.2-5-g4562487",
-			"Rev": "4562487a4bee9a7c272b72bfaeda4917d0a47ab9"
+			"ImportPath": "github.com/maxwellhealth/go-dotaccess",
+			"Rev": "ae070a2d2a38fd7233e255ded21fb26fe36b4796"
 		},
 		{
-			"ImportPath": "github.com/garyburd/redigo/internal",
-			"Comment": "v1.1.0-1-gfb985d0",
-			"Rev": "fb985d0d06e5f1065b3bfb0b2bb8aea6809a3670"
+			"ImportPath": "github.com/oleiade/reflections",
+			"Comment": "0.1.2-12-g0e86b3c",
+			"Rev": "0e86b3c98b2ff33e30c85cfe97d9a63d439fe7eb"
 		},
 		{
-			"ImportPath": "github.com/garyburd/redigo/redis",
-			"Comment": "v1.1.0-1-gfb985d0",
-			"Rev": "fb985d0d06e5f1065b3bfb0b2bb8aea6809a3670"
+			"ImportPath": "gopkg.in/mgo.v2",
+			"Comment": "r2016.08.01-5-g3f83fa5",
+			"Rev": "3f83fa5005286a7fe593b055f0d7771a7dce4655"
 		},
 		{
-			"ImportPath": "github.com/gin-gonic/contrib/sessions",
-			"Rev": "d4fc5a96cc0d29cb0e862bb1312dd6f4fedfcaee"
+			"ImportPath": "gopkg.in/mgo.v2/bson",
+			"Comment": "r2016.08.01-5-g3f83fa5",
+			"Rev": "3f83fa5005286a7fe593b055f0d7771a7dce4655"
 		},
 		{
-			"ImportPath": "github.com/gin-gonic/gin",
-			"Comment": "v1.1.4-1-gd5b353c",
-			"Rev": "d5b353c5d5a560322e6d96121c814115562501f7"
+			"ImportPath": "gopkg.in/mgo.v2/internal/json",
+			"Comment": "r2016.08.01-5-g3f83fa5",
+			"Rev": "3f83fa5005286a7fe593b055f0d7771a7dce4655"
 		},
 		{
-			"ImportPath": "github.com/gin-gonic/gin/binding",
-			"Comment": "v1.1.4-1-gd5b353c",
-			"Rev": "d5b353c5d5a560322e6d96121c814115562501f7"
+			"ImportPath": "gopkg.in/mgo.v2/internal/sasl",
+			"Comment": "r2016.08.01-5-g3f83fa5",
+			"Rev": "3f83fa5005286a7fe593b055f0d7771a7dce4655"
 		},
 		{
-			"ImportPath": "github.com/gin-gonic/gin/render",
-			"Comment": "v1.1.4-1-gd5b353c",
-			"Rev": "d5b353c5d5a560322e6d96121c814115562501f7"
-		},
-		{
-			"ImportPath": "github.com/golang/protobuf/proto",
-			"Rev": "6e4cc92cc905d5f4a73041c1b8228ea08f4c6147"
-		},
-		{
-			"ImportPath": "github.com/gorilla/context",
-			"Comment": "v1.1-7-g08b5f42",
-			"Rev": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
-		},
-		{
-			"ImportPath": "github.com/gorilla/securecookie",
-			"Comment": "v1.1-6-ge59506c",
-			"Rev": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983"
-		},
-		{
-			"ImportPath": "github.com/gorilla/sessions",
-			"Comment": "v1.1-6-g8b6b4cd",
-			"Rev": "8b6b4cd75f07f7ee036eb37b8127bd40ab1efc49"
-		},
-		{
-			"ImportPath": "github.com/manucorporat/sse",
-			"Rev": "ee05b128a739a0fb76c7ebd3ae4810c1de808d6d"
-		},
-		{
-			"ImportPath": "github.com/mattn/go-isatty",
-			"Comment": "v0.0.2",
-			"Rev": "fc9e8d8ef48496124e79ae0df75490096eccf6fe"
-		},
-		{
-			"ImportPath": "golang.org/x/net/context",
-			"Rev": "3da985ce5951d99de868be4385f21ea6c2b22f24"
-		},
-		{
-			"ImportPath": "golang.org/x/net/context/ctxhttp",
-			"Rev": "3da985ce5951d99de868be4385f21ea6c2b22f24"
-		},
-		{
-			"ImportPath": "golang.org/x/oauth2",
-			"Rev": "f047394b6d14284165300fd82dad67edb3a4d7f6"
-		},
-		{
-			"ImportPath": "golang.org/x/oauth2/google",
-			"Rev": "f047394b6d14284165300fd82dad67edb3a4d7f6"
-		},
-		{
-			"ImportPath": "golang.org/x/oauth2/internal",
-			"Rev": "f047394b6d14284165300fd82dad67edb3a4d7f6"
-		},
-		{
-			"ImportPath": "golang.org/x/oauth2/jws",
-			"Rev": "f047394b6d14284165300fd82dad67edb3a4d7f6"
-		},
-		{
-			"ImportPath": "golang.org/x/oauth2/jwt",
-			"Rev": "f047394b6d14284165300fd82dad67edb3a4d7f6"
-		},
-		{
-			"ImportPath": "golang.org/x/sys/unix",
-			"Rev": "b90f89a1e7a9c1f6b918820b3daa7f08488c8594"
-		},
-		{
-			"ImportPath": "gopkg.in/go-playground/validator.v8",
-			"Comment": "v8.18.1",
-			"Rev": "5f57d2222ad794d0dffb07e664ea05e2ee07d60c"
-		},
-		{
-			"ImportPath": "gopkg.in/yaml.v2",
-			"Rev": "cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b"
+			"ImportPath": "gopkg.in/mgo.v2/internal/scram",
+			"Comment": "r2016.08.01-5-g3f83fa5",
+			"Rev": "3f83fa5005286a7fe593b055f0d7771a7dce4655"
 		}
 	]
 }
