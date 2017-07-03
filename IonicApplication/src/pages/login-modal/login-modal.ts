@@ -19,10 +19,10 @@ export class LoginModalPage {
 
   startGoogleSignIn() {
     this.loading.present();
-    this.googleService.googleSignIn().then(function () {
+    this.googleService.googleSignIn()//.then(function () {
         this.vController.dismiss();
         this.loading.dismiss();
-    });
+    //});
   }
 
   ionViewDidLoad() {

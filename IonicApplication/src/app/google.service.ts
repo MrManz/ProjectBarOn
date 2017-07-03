@@ -21,8 +21,8 @@ googlePromise;
   }
 
   public googleSignIn() {
-    return new Promise(
-      (resolve, reject) => {
+    //return new Promise(
+      //(resolve, reject) => {
         if (this.isApp) {
           GooglePlus.login({
             'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
@@ -37,10 +37,10 @@ googlePromise;
                 token: user.id_token
               })
                 .then(function () {
-                  resolve();
+                  //resolve();
                   //nav.push(UserPage);
                 }, function (error) {
-                  reject();
+                  //reject();
                   console.log(error);
                 })
             }, function (error) {
@@ -48,9 +48,9 @@ googlePromise;
             });
         } else {
           gapi.load('client:auth2', this.initClient);
-          resolve();
+          //resolve();
         }
-      });
+      //});
   }
 
   private initClient() {
