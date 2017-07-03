@@ -1,4 +1,7 @@
 {
-  "cid":"839090909377-3ng2immnrb7i0ukkmiqm250vkankfb39.apps.googleusercontent.com",
-  "database":"postgres"
+  "aud":"920043719912-b9pam9s4ak2g3f3elv421hk5d2jqhmjg.apps.googleusercontent.com",
+  "database":"postgres",
+  "db_user":"user01",
+  "db_name":"baron",
+  "db_password":"Taombykvhbjxjxu5"
 }

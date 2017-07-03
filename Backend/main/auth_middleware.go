@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"encoding/json"
-	"time"
-	"strconv"
 )
 //Middleware dient zur Überprüfung des Authorization Headers
 //Damit ein Request durch die Middleware kommt, muss der Authorization Header den Token von Google Sign In enthalten
@@ -49,27 +47,9 @@ func authMiddleware(next AuthHandler) http.Handler {
 			panic(err)
 		}
 		//aud prüfen
-		if(token_data["aud"]!="839090909377-3ng2immnrb7i0ukkmiqm250vkankfb39.apps.googleusercontent.com"){
+		if(token_data["aud"]!=properties["aud"]){
 			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Println("Token wurde nicht auf die App ausgestellt")
-			return
-		}
-		//iss prüfen
-		if(token_data["iss"]!="accounts.google.com"){
-			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Println("Token wurde nicht von Google Accounts ausgestellt")
-			return
-		}
-		//zeitstempel prüfen
-		timestamp, err := strconv.ParseInt(token_data["exp"], 10, 32)
-		if(err != nil){
-			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Fprintf(w, "Es ist ein unerwarteter Fehler aufgetreten, bitte nochmal versuchen")
-			return
-		}
-		if(timestamp < time.Now().Unix()){
-			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Println("Token ist abgelaufen")
+			fmt.Fprintf(w, "Token wurde nicht auf die App ausgestellt!")
 			return
 		}
 		//Alle Daten übergeben

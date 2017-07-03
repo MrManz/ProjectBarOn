@@ -2,29 +2,29 @@ package main
 
 import (
 	"fmt"
-/*	"net/http"
-	"os"
+	"path/filepath"
 	"io/ioutil"
-	"fmt"
+	"os"
 	"encoding/json"
-	"path/filepath"*/
+	"net/http"
 )
+
+var properties map[string]string
 
 func main() {
 
-	control := db_controller{}
+/*	control := db_controller{}
 	control.CreateDB()
 
 	p := control.QueryPerson("jamesbond@BarOn.com")
-	fmt.Println(p)
-/*
+	fmt.Println(p)*/
+
 	absPath, _ := filepath.Abs("main/config.json")
 	file, e := ioutil.ReadFile(absPath)
 	if e != nil {
 		fmt.Printf("Cant read properties!")
 		os.Exit(1)
 	}
-	var properties map[string]string
 	json.Unmarshal(file, &properties)
 	//Testrequest: GET localhost:8080/beispiel
 	//Header: Authorization=HIER TOKEN EINFÜGEN
@@ -37,5 +37,5 @@ func main() {
 	http.Handle("/getamount", authMiddleware(amountHandler))
 	bottlesHandler:=CreateBottlesHandler(db_con)
 	http.Handle("/getbottles", bottlesHandler)
-	http.ListenAndServe(":8080", nil)*/
+	http.ListenAndServe(":8080", nil)
 }

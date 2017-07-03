@@ -15,7 +15,7 @@ func (fac db_connector_factory) make(identifier string) db_connector{
 	case "mock":
 		return &db_mock{}
 	case "postgres":
-		return &db_postgres{}
+		return createPostgresDB()
 	default:
 		fmt.Println("Keine gültige Datenbank angegeben!")
 	}
