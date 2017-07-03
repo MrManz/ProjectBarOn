@@ -1,15 +1,18 @@
 import {Component, ViewChild} from '@angular/core';
-import {Item, NavController, ModalController} from 'ionic-angular';
+import {Item, NavController, ModalController, LoadingController} from 'ionic-angular';
 import {NativeStorage} from 'ionic-native';
 import {LoginModalPage} from '../login-modal/login-modal';
-import { GoogleService } from '../../app/google.service';
+import {GoogleService} from '../../app/google.service';
+import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 //import $ from "jquery";
+import { Events } from 'ionic-angular';
 var that;
 @Component({
   selector: 'page-benutzerkonto',
   templateUrl: 'benutzerkonto.html'
 })
 export class BenutzerkontoPage {
+  loading;
   user = {
     name: "",
     email: "",
@@ -19,15 +22,30 @@ export class BenutzerkontoPage {
   @ViewChild('AccountListItem') AccountListItem: Item;
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController,  private googleService: GoogleService) {
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public modalCtrl: ModalController, private googleService: GoogleService, private backendservice: BackendServiceProvider, public events: Events) {
     that = this;
     this.readUserData().then(function (user) {
         that.user = user;
       }
       , function (error) {
+        that.loading = that.loadingCtrl.create({
+          content: 'Please wait...'
+        });
         that.openLoginModal()
       }
     );
+    events.subscribe('nativestorage:filled', () => {
+      that.readUserData().then(function (user) {
+          that.user = user;
+          that.loading.dismiss();
+          //console.log(that.loadBottles());
+        }
+        , function (error) {
+          that.openLoginModal()
+        }
+      );
+    });
+
   }
 
   //Remove when unused
@@ -46,6 +64,9 @@ export class BenutzerkontoPage {
       picture: "",
       token: ""
     };
+    this.loading = that.loadingCtrl.create({
+      content: 'Please wait...'
+    });
     this.googleService.googleSignOut();
   }
 
@@ -60,13 +81,7 @@ export class BenutzerkontoPage {
       enableBackdropDismiss: false
     });
     loginModal.onDidDismiss(function () {
-      that.readUserData().then(function (user) {
-          that.user = user;
-        }
-        , function (error) {
-          that.openLoginModal()
-        }
-      );
+
     });
     loginModal.present();
   }
@@ -89,5 +104,9 @@ export class BenutzerkontoPage {
           });
       }
     )
+  }
+
+  loadBottles() {
+    this.backendservice.loadBottles();
   }
 }

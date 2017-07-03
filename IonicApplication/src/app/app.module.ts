@@ -15,6 +15,7 @@ import { GoogleService } from './google.service';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BackendServiceProvider } from '../providers/backend-service/backend-service';
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BackendServiceProvider } from '../providers/backend-service/backend-ser
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
