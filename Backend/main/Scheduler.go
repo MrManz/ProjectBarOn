@@ -1,23 +1,26 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-	"os"
+	//"path/filepath"
 	"io/ioutil"
+	"os"
 	"encoding/json"
-	"path/filepath"
+	"net/http"
 )
 
+var properties map[string]string
+
 func main() {
+
+
+
 
 	absPath, _ := filepath.Abs("main/config.json")
 	file, e := ioutil.ReadFile(absPath)
 	if e != nil {
-		fmt.Printf("Cant read properties!")
+		panic(e)
 		os.Exit(1)
 	}
-	var properties map[string]string
 	json.Unmarshal(file, &properties)
 	//Testrequest: GET localhost:8080/beispiel
 	//Header: Authorization=HIER TOKEN EINFÜGEN

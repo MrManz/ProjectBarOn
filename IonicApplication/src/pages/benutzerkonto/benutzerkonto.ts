@@ -10,7 +10,6 @@ var that;
   templateUrl: 'benutzerkonto.html'
 })
 export class BenutzerkontoPage {
-  userPremise;
   user = {
     name: "",
     email: "",
@@ -22,14 +21,13 @@ export class BenutzerkontoPage {
   // should be each tab's root Page
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,  private googleService: GoogleService) {
     that = this;
-    this.readUserData();
-    this.userPremise.then(function (user) {
+    this.readUserData().then(function (user) {
         that.user = user;
       }
       , function (error) {
         that.openLoginModal()
       }
-    )
+    );
   }
 
   //Remove when unused
@@ -62,20 +60,19 @@ export class BenutzerkontoPage {
       enableBackdropDismiss: false
     });
     loginModal.onDidDismiss(function () {
-      that.readUserData();
-      that.userPremise.then(function (user) {
+      that.readUserData().then(function (user) {
           that.user = user;
         }
         , function (error) {
           that.openLoginModal()
         }
-      )
+      );
     });
     loginModal.present();
   }
 
   readUserData() {
-    this.userPremise = new Promise(
+    return new Promise(
       (resolve, reject) => {
         var user;
         NativeStorage.getItem('user')

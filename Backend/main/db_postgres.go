@@ -1,31 +1,70 @@
 package main
 
+import (
+	"database/sql"
+	_ "github.com/lib/pq"
+	"os"
+)
+
 type db_postgres struct {
 	account map[string]int
 	amt int
+	db *sql.DB
+	bottles []Bottle
+}
+
+func createPostgresDB() *db_postgres {
+	db, err := sql.Open("postgres", "user="+properties["db_user"]+" dbname="+properties["db_name"]+" password="+properties["db_password"]+" sslmode=disable")
+	if err != nil {
+		panic(err)
+		os.Exit(1)
+	}
+	db_pg:=db_postgres{db:db}
+	return &db_pg
 }
 
 func (postgres *db_postgres)addToBill(id string, amount int)  {
-	if(postgres.account==nil){
-		postgres.account=make(map[string]int)
-	}
-	amountsofar:= postgres.account[id]
+	amountsofar:=postgres.getAmount(id)
+
 	postgres.account[id] = amountsofar + amount
 }
 
 func (postgres *db_postgres) getAmount(id string) int  {
-	if(postgres.account==nil){
-		postgres.account=make(map[string]int)
+	var amount int = 0
+	rows, err := postgres.db.Query("SELECT amount FROM account WHERE id="+id)
+	if err != nil {
+		panic(err)
+		os.Exit(1)
 	}
-	return postgres.account[id]
+	if(rows != nil){
+		rows.Scan(&amount)
+	}
+	return amount
 }
 
 func (postgres *db_postgres) getBottles() []Bottle  {
-	bottles := make([]Bottle, 5)
-	bottles[0]= Bottle{Id:0, Name:"TEST", PricePerLiter:20000}
-	bottles[1]= Bottle{Id:1, Name:"Rum", PricePerLiter:25000}
-	bottles[2]= Bottle{Id:2, Name:"Orangensaft", PricePerLiter:10000}
-	bottles[3]= Bottle{Id:3, Name:"Apfelsaft", PricePerLiter:10000}
-	bottles[4]= Bottle{Id:4, Name:"Cola", PricePerLiter:10000}
-	return bottles
+	if(postgres.bottles == nil){
+		rows, err := postgres.db.Query("SELECT id, name, priceperliter FROM bottles")
+		if err != nil {
+			panic(err)
+			os.Exit(1)
+		}
+		bottles := make([]Bottle, 0)
+		for rows.Next() {
+			var id int
+			var name string
+			var priceperliter int
+			err = rows.Scan(&id, &name, &priceperliter)
+			if err != nil {
+				panic(err)
+				os.Exit(1)
+			}
+			bottle:=Bottle{ Id:id,
+				Name:name,
+				PricePerLiter:priceperliter}
+			bottles = append(bottles, bottle)
+		}
+		postgres.bottles = bottles
+	}
+	return postgres.bottles
 }
