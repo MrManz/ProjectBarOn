@@ -1,23 +1,19 @@
 package main
 
 import (
-	//"path/filepath"
+	"path/filepath"
 	"io/ioutil"
 	"os"
 	"encoding/json"
 	"net/http"
-	"path/filepath"
 )
 
 var properties map[string]string
 
 func main() {
 
-/*	control := db_controller{}
-	control.CreateDB()
 
-	p := control.QueryPerson("jamesbond@BarOn.com")
-	fmt.Println(p)*/
+
 
 	absPath, _ := filepath.Abs("main/config.json")
 	file, e := ioutil.ReadFile(absPath)
