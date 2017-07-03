@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Http } from '@angular/http'
 
 /*
   Generated class for the BackendServiceProvider provider.
@@ -10,9 +10,33 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class BackendServiceProvider {
+  data;
+  constructor(private http: Http) {
 
-  constructor(public http: Http) {
-    console.log('Hello BackendServiceProvider Provider');
+  }
+  loadRecipe() {
+//    if (this.data) {
+//       already loaded data
+//      return Promise.resolve(this.data);
+//    }
+    return new Promise(resolve => {
+      this.http.get('path/to/data.json')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data.results;
+          resolve(this.data);
+        });
+    });
+  }
+  loadBottles(){
+    return new Promise(resolve => {
+      this.http.get('http://localhost:8080/getbottles')
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data.results;
+          resolve(this.data);
+        });
+    });
   }
 
 }
