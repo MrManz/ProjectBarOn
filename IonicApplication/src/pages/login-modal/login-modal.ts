@@ -9,20 +9,13 @@ var that: LoginModalPage;
   templateUrl: 'login-modal.html',
 })
 export class LoginModalPage {
-  loading;
-  constructor(public vController: ViewController, private googleService: GoogleService, public loadingCtrl: LoadingController) {
-    this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
-    });
+  constructor(public vController: ViewController, private googleService: GoogleService) {
     that = this;
   }
 
   startGoogleSignIn() {
-    this.loading.present();
-    this.googleService.googleSignIn()//.then(function () {
-        this.vController.dismiss();
-        this.loading.dismiss();
-    //});
+    this.googleService.googleSignIn();
+    this.vController.dismiss();
   }
 
   ionViewDidLoad() {
