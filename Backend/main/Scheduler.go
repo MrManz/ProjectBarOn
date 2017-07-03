@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"path/filepath"
+	//"path/filepath"
 	"io/ioutil"
 	"os"
 	"encoding/json"
@@ -19,10 +18,10 @@ func main() {
 	p := control.QueryPerson("jamesbond@BarOn.com")
 	fmt.Println(p)*/
 
-	absPath, _ := filepath.Abs("main/config.json")
-	file, e := ioutil.ReadFile(absPath)
+	//absPath, _ := filepath.Abs("main/config.json")
+	file, e := ioutil.ReadFile("main/config.json")
 	if e != nil {
-		fmt.Printf("Cant read properties!")
+		panic(e)
 		os.Exit(1)
 	}
 	json.Unmarshal(file, &properties)
