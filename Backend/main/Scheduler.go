@@ -6,6 +6,7 @@ import (
 	"os"
 	"encoding/json"
 	"net/http"
+	"path/filepath"
 )
 
 var properties map[string]string
@@ -18,8 +19,8 @@ func main() {
 	p := control.QueryPerson("jamesbond@BarOn.com")
 	fmt.Println(p)*/
 
-	//absPath, _ := filepath.Abs("main/config.json")
-	file, e := ioutil.ReadFile("main/config.json")
+	absPath, _ := filepath.Abs("main/config.json")
+	file, e := ioutil.ReadFile(absPath)
 	if e != nil {
 		panic(e)
 		os.Exit(1)
