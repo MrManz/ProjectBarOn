@@ -1,7 +1,7 @@
 package main
 
 import (
-	//"path/filepath"
+	"path/filepath"
 	"io/ioutil"
 	"os"
 	"encoding/json"
@@ -11,9 +11,6 @@ import (
 var properties map[string]string
 
 func main() {
-
-
-
 
 	absPath, _ := filepath.Abs("main/config.json")
 	file, e := ioutil.ReadFile(absPath)

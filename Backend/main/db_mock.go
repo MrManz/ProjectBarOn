@@ -21,11 +21,9 @@ func (mock *db_mock) getAmount(id string) int  {
 }
 
 func (mock *db_mock) getBottles() []Bottle  {
-	bottles := make([]Bottle, 5)
-	bottles[0]= Bottle{Id:0, Name:"Vodka", PricePerLiter:20000}
-	bottles[1]= Bottle{Id:1, Name:"Rum", PricePerLiter:25000}
-	bottles[2]= Bottle{Id:2, Name:"Orangensaft", PricePerLiter:10000}
-	bottles[3]= Bottle{Id:3, Name:"Apfelsaft", PricePerLiter:10000}
-	bottles[4]= Bottle{Id:4, Name:"Cola", PricePerLiter:10000}
+	bottles := make([]Bottle, 3)
+	bottles[0]= Bottle{Id:0, Name:"Cola", PricePerLiter:6}
+	bottles[1]= Bottle{Id:1, Name:"Whisky", PricePerLiter:24}
+	bottles[2]= Bottle{Id:2, Name:"Rum", PricePerLiter:24}
 	return bottles
 }
