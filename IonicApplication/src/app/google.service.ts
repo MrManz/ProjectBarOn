@@ -2,6 +2,7 @@ import {Injectable} from  '@angular/core';
 import {GooglePlus, NativeStorage} from 'ionic-native';
 import { Platform } from 'ionic-angular';
 import GoogleAuth = gapi.auth2.GoogleAuth;
+import { Events } from 'ionic-angular';
 var that: GoogleService;
 
 @Injectable()
@@ -11,7 +12,7 @@ SCOPE = 'profile';
 GoogleAuth: any;
 googlePromise;
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform, public events: Events) {
     if (this.platform.is('core') || this.platform.is('mobileweb')) {
       this.isApp = false;
     } else {
@@ -63,13 +64,15 @@ googlePromise;
       that.GoogleAuth.signIn().then(function () {
         var user = that.GoogleAuth.currentUser.get();
         var userProfile = user.getBasicProfile();
-
         NativeStorage.setItem('user', {
           name: userProfile.getName(),
           email: userProfile.getEmail(),
           picture: userProfile.getImageUrl(),
           token: user.getAuthResponse().id_token
+        }).then(function () {
+          that.events.publish('nativestorage:filled');
         });
+
       });
     });
   }

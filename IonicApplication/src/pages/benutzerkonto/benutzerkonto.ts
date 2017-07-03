@@ -2,8 +2,10 @@ import {Component, ViewChild} from '@angular/core';
 import {Item, NavController, ModalController} from 'ionic-angular';
 import {NativeStorage} from 'ionic-native';
 import {LoginModalPage} from '../login-modal/login-modal';
-import { GoogleService } from '../../app/google.service';
+import {GoogleService} from '../../app/google.service';
+import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 //import $ from "jquery";
+import { Events } from 'ionic-angular';
 var that;
 @Component({
   selector: 'page-benutzerkonto',
@@ -19,7 +21,7 @@ export class BenutzerkontoPage {
   @ViewChild('AccountListItem') AccountListItem: Item;
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController,  private googleService: GoogleService) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private googleService: GoogleService, private backendservice: BackendServiceProvider, public events: Events) {
     that = this;
     this.readUserData().then(function (user) {
         that.user = user;
@@ -28,6 +30,17 @@ export class BenutzerkontoPage {
         that.openLoginModal()
       }
     );
+    events.subscribe('nativestorage:filled', () => {
+      that.readUserData().then(function (user) {
+          that.user = user;
+          //console.log(that.loadBottles());
+        }
+        , function (error) {
+          that.openLoginModal()
+        }
+      );
+    });
+
   }
 
   //Remove when unused
@@ -60,13 +73,7 @@ export class BenutzerkontoPage {
       enableBackdropDismiss: false
     });
     loginModal.onDidDismiss(function () {
-      that.readUserData().then(function (user) {
-          that.user = user;
-        }
-        , function (error) {
-          that.openLoginModal()
-        }
-      );
+
     });
     loginModal.present();
   }
@@ -89,5 +96,9 @@ export class BenutzerkontoPage {
           });
       }
     )
+  }
+
+  loadBottles() {
+    this.backendservice.loadBottles();
   }
 }
