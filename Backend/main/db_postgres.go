@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	_ "github.com/lib/pq"
 	"os"
+	"strconv"
 )
 
 type db_postgres struct {
@@ -24,9 +25,33 @@ func createPostgresDB() *db_postgres {
 }
 
 func (postgres *db_postgres)addToBill(id string, amount int)  {
-	amountsofar:=postgres.getAmount(id)
+	var flag int
+	var finalamount int
+	rows, err := postgres.db.Query("select count(1) from public.bottles where id="+id)
+	if err != nil {
+		panic(err)
+		os.Exit(1)
+	}
+	if(rows != nil){
+		rows.Scan(&flag)
+	}
+	if(flag==1){
+		amountsofar:=postgres.getAmount(id)
+		finalamount=amountsofar+amount
+		err := postgres.db.QueryRow("UPDATE public.account SET amount="+strconv.Itoa(finalamount)+" WHERE id="+id)
+		if err != nil {
+			panic(err)
+			os.Exit(1)
+		}
+	}else{
+		finalamount = amount
+		err := postgres.db.QueryRow("INSERT INTO public.account(id, amount)VALUES ("+id+", "+strconv.Itoa(finalamount)+")")
+		if err != nil {
+			panic(err)
+			os.Exit(1)
+		}
+	}
 
-	postgres.account[id] = amountsofar + amount
 }
 
 func (postgres *db_postgres) getAmount(id string) int  {
