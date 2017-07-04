@@ -1,7 +1,6 @@
 import {Injectable} from  '@angular/core';
 import {GooglePlus, NativeStorage} from 'ionic-native';
 import { Platform } from 'ionic-angular';
-import GoogleAuth = gapi.auth2.GoogleAuth;
 import { Events } from 'ionic-angular';
 var that: GoogleService;
 

@@ -2,7 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {Item, NavController, ModalController} from 'ionic-angular';
 import {NativeStorage} from 'ionic-native';
 import {LoginModalPage} from '../login-modal/login-modal';
-import {GoogleService} from '../../app/google.service';
+import {GoogleService} from '../../providers/google-service/google.service';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 //import $ from "jquery";
 var that;

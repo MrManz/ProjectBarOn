@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController} from 'ionic-angular';
-import GoogleAuth = gapi.auth2.GoogleAuth;
-import { GoogleService } from '../../app/google.service';
+import {GoogleService } from '../../providers/google-service/google.service';
 import { Events } from 'ionic-angular';
 var that: LoginModalPage;
 @IonicPage()
