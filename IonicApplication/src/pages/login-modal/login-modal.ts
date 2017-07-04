@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, LoadingController, ViewController} from 'ionic-angular';
+import { IonicPage, ViewController} from 'ionic-angular';
 import GoogleAuth = gapi.auth2.GoogleAuth;
 import { GoogleService } from '../../app/google.service';
+import { Events } from 'ionic-angular';
 var that: LoginModalPage;
 @IonicPage()
 @Component({
@@ -9,16 +10,19 @@ var that: LoginModalPage;
   templateUrl: 'login-modal.html',
 })
 export class LoginModalPage {
-  constructor(public vController: ViewController, private googleService: GoogleService) {
+  loading;
+  constructor(public vController: ViewController, private googleService: GoogleService, public events: Events) {
     that = this;
+    events.subscribe('nativestorage:filled', () => {
+      this.vController.dismiss();
+    });
   }
 
   startGoogleSignIn() {
     this.googleService.googleSignIn();
-    this.vController.dismiss();
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SampleModalPage');
+    //console.log('ionViewDidLoad SampleModalPage');
   }
 }
