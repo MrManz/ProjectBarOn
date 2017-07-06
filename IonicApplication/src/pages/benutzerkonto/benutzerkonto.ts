@@ -24,6 +24,7 @@ export class BenutzerkontoPage {
     that = this;
     this.readUserData().then(function (user) {
         that.user = user;
+        that.loadBottles();
       }
       , function (error) {
         that.openLoginModal()
@@ -33,12 +34,10 @@ export class BenutzerkontoPage {
 
   //Remove when unused
   ngAfterViewInit() {
-    console.log(this.AccountListItem);
   }
 
   logout(params) {
     if (!params) params = {};
-    //workaround better way to do !!!
     NativeStorage.remove('user');
     this.openLoginModal();
     this.user = {
@@ -93,6 +92,8 @@ export class BenutzerkontoPage {
   }
 
   loadBottles() {
-    this.backendservice.loadBottles();
+    this.backendservice.loadBottles().then(function (result) {
+      NativeStorage.setItem('bottles', result);
+    });
   }
 }

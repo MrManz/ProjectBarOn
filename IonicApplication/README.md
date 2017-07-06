@@ -20,6 +20,7 @@ npm install --save @types/gapi.auth2
 npm install --save @types/jquery
 npm install --save jquery
 ionic cordova plugin add cordova-plugin-nativestorage
+ionic cordova plugin add phonegap-plugin-push --variable SENDER_ID=920043719912
 
 RUN:
 $ ionic cordova platform add ios

@@ -11,32 +11,37 @@ import { Http } from '@angular/http'
 @Injectable()
 export class BackendServiceProvider {
   data;
+
   constructor(private http: Http) {
 
   }
+
   loadRecipe() {
 //    if (this.data) {
 //       already loaded data
 //      return Promise.resolve(this.data);
 //    }
-    return new Promise(resolve => {
-      this.http.get('path/to/data.json')
+    return new Promise((resolve, reject) => {
+      this.http.get('http://localhost:8080/getrecipes')
         .map(res => res.json())
         .subscribe(data => {
-          this.data = data.results;
-          resolve(this.data);
-        });
-    });
-  }
-  loadBottles(){
-    return new Promise(resolve => {
-      this.http.get('http://localhost:8080/getbottles')
-        .map(res => res.json())
-        .subscribe(data => {
-          this.data = data.results;
-          resolve(this.data);
-        });
+          resolve(data);
+        }), function (error) {
+        reject(error);
+      };
     });
   }
 
+  loadBottles() {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://localhost:8080/getbottles')
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }), function (error) {
+        reject(error);
+      };
+
+    });
+  }
 }
