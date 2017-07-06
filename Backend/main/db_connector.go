@@ -4,6 +4,7 @@ type db_connector interface {
 	addToBill(id string, amount int)
 	getAmount(id string) int
 	getBottles() []Bottle
+	getRecipes() []Recipe
 }
 
 type Bottle struct {
@@ -12,19 +13,12 @@ type Bottle struct {
 	PricePerLiter int
 }
 
-type Cocktail struct{
-	Ingredients map[Bottle]int
-	Price int
+type Recipe struct {
+	Name string
+	Ingredients []Ingredient
 }
 
-func newCocktail() *Cocktail{
-	// TODO: Load from DB
-	c := Cocktail{}
-	p := 0
-
-	for bottle, amount := range c.Ingredients {
-		p = p + (bottle.PricePerLiter * amount)
-	}
-	c.Price = p
-	return c
+type Ingredient struct {
+	Id int
+	Volume int
 }
