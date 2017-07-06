@@ -5,6 +5,7 @@ import (
 	_ "github.com/lib/pq"
 	"os"
 	"strconv"
+	"log"
 )
 
 type db_postgres struct {
@@ -27,42 +28,35 @@ func createPostgresDB() *db_postgres {
 func (postgres *db_postgres)addToBill(id string, amount int)  {
 	var flag int
 	var finalamount int
-	rows, err := postgres.db.Query("select count(1) from public.bottles where id="+id)
+	querycheck:="select * from public.account where id='"+id+"'"
+	rows, err := postgres.db.Query(querycheck)
 	if err != nil {
 		panic(err)
 		os.Exit(1)
 	}
-	if(rows != nil){
-		rows.Scan(&flag)
+	if(rows.Next()){
+		flag=1
 	}
 	if(flag==1){
 		amountsofar:=postgres.getAmount(id)
 		finalamount=amountsofar+amount
-		err := postgres.db.QueryRow("UPDATE public.account SET amount="+strconv.Itoa(finalamount)+" WHERE id="+id)
-		if err != nil {
-			panic(err)
-			os.Exit(1)
-		}
+		queryupdate:="UPDATE public.account SET amount="+strconv.Itoa(finalamount)+" WHERE id='"+id+"'"
+		postgres.db.QueryRow(queryupdate)
 	}else{
 		finalamount = amount
-		err := postgres.db.QueryRow("INSERT INTO public.account(id, amount)VALUES ("+id+", "+strconv.Itoa(finalamount)+")")
-		if err != nil {
-			panic(err)
-			os.Exit(1)
-		}
+		queryinsert:="INSERT INTO public.account (id, amount) VALUES ('"+id+"', "+strconv.Itoa(finalamount)+")"
+		postgres.db.QueryRow(queryinsert)
 	}
-
 }
 
 func (postgres *db_postgres) getAmount(id string) int  {
 	var amount int = 0
-	rows, err := postgres.db.Query("SELECT amount FROM account WHERE id="+id)
-	if err != nil {
-		panic(err)
-		os.Exit(1)
+	err := postgres.db.QueryRow("SELECT amount FROM account WHERE id='"+id+"'").Scan(&amount)
+	if err == sql.ErrNoRows {
+		log.Fatal("No Results Found")
 	}
-	if(rows != nil){
-		rows.Scan(&amount)
+	if err != nil {
+		log.Fatal(err)
 	}
 	return amount
 }
@@ -92,4 +86,13 @@ func (postgres *db_postgres) getBottles() []Bottle  {
 		postgres.bottles = bottles
 	}
 	return postgres.bottles
+}
+
+func (postgres *db_postgres) getRecipes() []Recipe  {
+	recipes := make([]Recipe, 1)
+	ingredients:=make([]Ingredient, 2)
+	ingredients[0]=Ingredient{Id:2, Volume:150}
+	ingredients[1]=Ingredient{Id:5, Volume:150}
+	recipes[0]=Recipe{Name:"Rum-Cola", Ingredients:ingredients}
+	return recipes
 }
