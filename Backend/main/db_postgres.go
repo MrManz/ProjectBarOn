@@ -13,6 +13,7 @@ type db_postgres struct {
 	amt int
 	db *sql.DB
 	bottles []Bottle
+	recipes []Recipe
 }
 
 func createPostgresDB() *db_postgres {
@@ -89,10 +90,41 @@ func (postgres *db_postgres) getBottles() []Bottle  {
 }
 
 func (postgres *db_postgres) getRecipes() []Recipe  {
-	recipes := make([]Recipe, 1)
-	ingredients:=make([]Ingredient, 2)
-	ingredients[0]=Ingredient{Id:2, Volume:150}
-	ingredients[1]=Ingredient{Id:5, Volume:150}
-	recipes[0]=Recipe{Name:"Rum-Cola", Ingredients:ingredients}
-	return recipes
+	if(postgres.recipes==nil){
+		rows, err := postgres.db.Query("SELECT id, name FROM recipes")
+		if err != nil {
+			panic(err)
+			os.Exit(1)
+		}
+		recipes := make([]Recipe, 0)
+		var recipeId int
+		for rows.Next() {
+			var name string
+			err = rows.Scan(&recipeId, &name)
+			if err != nil {
+				panic(err)
+				os.Exit(1)
+			}
+			rows, err := postgres.db.Query("SELECT id_bottle, volume FROM ingredients WHERE id_recipe="+strconv.Itoa(recipeId))
+			if err != nil {
+				panic(err)
+				os.Exit(1)
+			}
+			ingredients := make([]Ingredient, 0)
+			for rows.Next() {
+				var id_bottle, volume int
+				err = rows.Scan(&id_bottle, &volume)
+				if err != nil {
+					panic(err)
+					os.Exit(1)
+				}
+				ingredient:=Ingredient{Id:id_bottle, Volume:volume}
+				ingredients = append(ingredients, ingredient)
+			}
+			recipe:=Recipe{Name:name, Ingredients:ingredients}
+			recipes = append(recipes, recipe)
+		}
+		postgres.recipes = recipes
+	}
+	return postgres.recipes
 }

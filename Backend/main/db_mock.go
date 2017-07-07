@@ -34,7 +34,7 @@ func (mock *db_mock) getRecipes() []Recipe  {
 	recipes := make([]Recipe, 1)
 	ingredients:=make([]Ingredient, 2)
 	ingredients[0]=Ingredient{Id:1, Volume:150}
-	ingredients[1]=Ingredient{Id:2, Volume:150}
+	ingredients[1]=Ingredient{Id:4, Volume:150}
 	recipes[0]=Recipe{Name:"Rum-Cola", Ingredients:ingredients}
 	return recipes
 }
