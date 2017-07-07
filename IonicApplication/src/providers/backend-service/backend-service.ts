@@ -16,13 +16,22 @@ export class BackendServiceProvider {
 
   }
 
-  loadRecipe() {
-//    if (this.data) {
-//       already loaded data
-//      return Promise.resolve(this.data);
-//    }
+  loadRecipes() {
     return new Promise((resolve, reject) => {
       this.http.get('http://localhost:8080/getrecipes')
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }), function (error) {
+        reject(error);
+      };
+    });
+  }
+
+
+  loadRecipe(id: String) {
+    return new Promise((resolve, reject) => {
+      this.http.get('http://localhost:8080/getrecipe/' + id)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

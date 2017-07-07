@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { RezeptAuswHlenPage } from '../rezept-ausw-hlen/rezept-ausw-hlen';
-import { BersichtPage } from '../bersicht/bersicht';
+import { BersichtPage } from '../details/bersicht';
 import { BenutzerkontoPage } from '../benutzerkonto/benutzerkonto';
 import { CocktailErstellenPage } from '../cocktail-erstellen/cocktail-erstellen';
 import { BestellungenPage } from '../bestellungen/bestellungen';

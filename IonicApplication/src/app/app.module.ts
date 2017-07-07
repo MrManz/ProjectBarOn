@@ -4,7 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { BenutzerkontoPage } from '../pages/benutzerkonto/benutzerkonto';
 import { CocktailErstellenPage } from '../pages/cocktail-erstellen/cocktail-erstellen';
-import { BersichtPage } from '../pages/bersicht/bersicht';
+import { BersichtPage } from '../pages/details/bersicht';
 import { RezeptAuswHlenPage } from '../pages/rezept-ausw-hlen/rezept-ausw-hlen';
 import { BestellungenPage } from '../pages/bestellungen/bestellungen';
 import { TabsControllerPage } from '../pages/tabs-controller/tabs-controller';

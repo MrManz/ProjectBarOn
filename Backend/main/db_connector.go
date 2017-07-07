@@ -21,4 +21,5 @@ type Recipe struct {
 type Ingredient struct {
 	Id int
 	Volume int
+	Name string
 }

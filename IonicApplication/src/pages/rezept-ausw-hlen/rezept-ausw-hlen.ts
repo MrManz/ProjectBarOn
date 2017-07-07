@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { BersichtPage } from '../bersicht/bersicht';
+import { BersichtPage } from '../details/bersicht';
 import { BackendServiceProvider } from '../../providers/backend-service/backend-service';
 var that;
 @Component({
@@ -13,12 +13,13 @@ export class RezeptAuswHlenPage {
   // should be each tab's root Page
   constructor(public navCtrl: NavController, private backendservice: BackendServiceProvider) {
     that = this;
-    backendservice.loadRecipe().then(function (result) {
+    backendservice.loadRecipes().then(function (result) {
       that.recipes = result;
     });
   }
-  goToBersicht(params){
+
+  goToDetails(params){
     if (!params) params = {};
-    this.navCtrl.push(BersichtPage);
+    this.navCtrl.push(BersichtPage, { RecipeID: params});
   }
 }

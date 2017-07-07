@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      {{cocktail.Name}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page7">
+
+  <ion-item *ngFor="let ingredient of cocktail.Ingredients" color="none" id="rezeptAuswHlen-list-item14">
+    <ion-avatar item-left>
+      <img src="{{ingredient.picture}}">
+    </ion-avatar>
+    {{ingredient.Name}}
+  </ion-item>
+
+</ion-content>
