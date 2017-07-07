@@ -9,6 +9,16 @@
 			"Rev": "b7a1380f4885ba5672a6d62b1ec453129d11a017"
 		},
 		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-171-g8837942",
+			"Rev": "8837942c3e09574accbc5f150e2c5e057189cace"
+		},
+		{
+			"ImportPath": "github.com/lib/pq/oid",
+			"Comment": "go1.0-cutoff-171-g8837942",
+			"Rev": "8837942c3e09574accbc5f150e2c5e057189cace"
+		},
+		{
 			"ImportPath": "github.com/maxwellhealth/go-dotaccess",
 			"Rev": "ae070a2d2a38fd7233e255ded21fb26fe36b4796"
 		},
@@ -16,6 +26,11 @@
 			"ImportPath": "github.com/oleiade/reflections",
 			"Comment": "0.1.2-12-g0e86b3c",
 			"Rev": "0e86b3c98b2ff33e30c85cfe97d9a63d439fe7eb"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v.1.1",
+			"Rev": "8dd4211afb5d08dbb39a533b9bb9e4b486351df6"
 		},
 		{
 			"ImportPath": "gopkg.in/mgo.v2",
