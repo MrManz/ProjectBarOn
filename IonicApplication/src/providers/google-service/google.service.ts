@@ -32,13 +32,9 @@ GoogleAuth: any;
               email: user.email,
               picture: user.imageUrl,
               token: user.id_token
+            }).then(function () {
+                that.events.publish('nativestorage:filled');
             })
-              .then(function () {
-              }, function (error) {
-                console.log(error);
-              })
-          }, function (error) {
-            console.log(error);
           });
       } else {
         gapi.load('client:auth2',  this.initClient);
