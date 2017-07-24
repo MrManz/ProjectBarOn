@@ -5,6 +5,7 @@ type db_connector interface {
 	getAmount(id string) int
 	getBottles() []Bottle
 	getRecipes() []Recipe
+	getIngredients(id int) []Ingredient
 }
 
 type Bottle struct {
@@ -15,11 +16,10 @@ type Bottle struct {
 
 type Recipe struct {
 	Name string
-	Ingredients []Ingredient
+	Id int
 }
 
 type Ingredient struct {
 	Id int
 	Volume int
-	Name string
 }

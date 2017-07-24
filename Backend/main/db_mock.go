@@ -32,9 +32,15 @@ func (mock *db_mock) getBottles() []Bottle  {
 
 func (mock *db_mock) getRecipes() []Recipe  {
 	recipes := make([]Recipe, 1)
-	ingredients:=make([]Ingredient, 2)
-	ingredients[0]=Ingredient{Id:1, Volume:100, Name:"Rum"}
-	ingredients[1]=Ingredient{Id:4, Volume:300, Name:"Cola" }
-	recipes[0]=Recipe{Name:"Rum-Cola", Ingredients:ingredients}
+	recipes[0]=Recipe{Name:"Rum-Cola", Id:1}
 	return recipes
+}
+
+func (mock *db_mock) getIngredients(id int) []Ingredient  {
+	ingredients := make([]Ingredient, 2)
+	if(id == 1){
+		ingredients[0]=Ingredient{Id:1, Volume:150}
+		ingredients[1]=Ingredient{Id:4, Volume:150}
+	}
+	return ingredients
 }
