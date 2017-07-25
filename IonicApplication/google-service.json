@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "920043719912",
+    "firebase_url": "https://fir-baron.firebaseio.com",
+    "project_id": "firebase-baron",
+    "storage_bucket": "firebase-baron.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920043719912:android:72ba5d6025a3f1fe",
+        "android_client_info": {
+          "package_name": "io.ionic.BarOn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920043719912-ejbqe7ine0dgabgpfagt7kgkatn54ff1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.BarOn",
+            "certificate_hash": "cbaef795dad931b6f4c30446541a6256c88b2926"
+          }
+        },
+        {
+          "client_id": "920043719912-b9pam9s4ak2g3f3elv421hk5d2jqhmjg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI-5TGiHGaqNuKcEdLIPfe914GXncPP64"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920043719912-t8p05em1ktevid2m0bvespmbj7dbk72f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.ionic.BarOn"
+              }
+            },
+            {
+              "client_id": "920043719912-b9pam9s4ak2g3f3elv421hk5d2jqhmjg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

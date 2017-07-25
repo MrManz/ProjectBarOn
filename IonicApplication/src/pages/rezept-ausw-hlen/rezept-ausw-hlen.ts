@@ -20,6 +20,6 @@ export class RezeptAuswHlenPage {
 
   goToDetails(params){
     if (!params) params = {};
-    this.navCtrl.push(BersichtPage, { RecipeID: params});
+    this.navCtrl.push(BersichtPage, { RecipeID: params.Id, RecipeName: params.Name});
   }
 }

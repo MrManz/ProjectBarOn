@@ -31,7 +31,7 @@ export class BackendServiceProvider {
 
   loadRecipe(id: String) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:8080/getrecipe/' + id)
+      this.http.get('http://localhost:8080/getrecipes?id=' + id)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

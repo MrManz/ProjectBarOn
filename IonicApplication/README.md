@@ -20,7 +20,8 @@ npm install --save @types/gapi.auth2
 npm install --save @types/jquery
 npm install --save jquery
 ionic cordova plugin add cordova-plugin-nativestorage
-ionic cordova plugin add phonegap-plugin-push --variable SENDER_ID=920043719912
+// ionic cordova plugin add phonegap-plugin-push --variable SENDER_ID=920043719912
+cordova plugin add https://github.com/phonegap/phonegap-plugin-push
 
 RUN:
 $ ionic cordova platform add ios
@@ -28,4 +29,7 @@ $ ionic cordova run ios
 OR:
 $ ionic cordova platform add browser
 $ ionic cordova run browser (for browser) (ACHTUNG: Third-Party cookies müssen erlaubt werden oder evtl: [*.]accounts.google.com whitelist hinzufügen)
+
+reverse:
+npm install --save-dev @types/phonegap-plugin-push
 

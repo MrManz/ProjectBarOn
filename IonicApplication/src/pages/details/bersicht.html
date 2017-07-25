@@ -1,25 +1,31 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      {{cocktail.Name}}
+      {{name}}
     </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="share()">
+        <ion-icon name="share"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content padding style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page7">
+<ion-content class="no-scroll" padding
+             style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page7">
 
   <ion-list id="rezeptAuswHlen-list3">
 
-    <ion-item *ngFor="let ingredient of cocktail.Ingredients" color="none" id="rezeptAuswHlen-list-item14">
+    <ion-item *ngFor="let ingredients of cocktail" color="none" id="rezeptAuswHlen-list-item14">
 
       <ion-avatar item-left>
-        <img src="{{ingredient.picture}}">
+        <img src="{{ingredients.PathToPicture}}">
       </ion-avatar>
 
       <ion-label>
-        {{ingredient.Name}}
+        {{ingredients.Bottle}}
       </ion-label>
 
-      <ion-range min="0" max="200" [(ngModel)]="saturation" color="secondary">
+      <ion-range step=10 min="0" max="200" [(ngModel)]="ingredients.volume" color="secondary">
         <ion-label range-left>0</ion-label>
         <ion-label range-right>200</ion-label>
       </ion-range>
@@ -27,5 +33,10 @@
     </ion-item>
 
   </ion-list>
+  <ion-fab right bottom>
+    <button ion-fab color="secondary" (click)="addIngredient()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>

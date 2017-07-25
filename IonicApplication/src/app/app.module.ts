@@ -15,6 +15,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { BackendServiceProvider } from '../providers/backend-service/backend-service';
 import {HttpModule} from "@angular/http";
 import { Push } from '@ionic-native/push';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { OneSignal } from '@ionic-native/onesignal';
 
 @NgModule({
   declarations: [
@@ -49,8 +52,10 @@ import { Push } from '@ionic-native/push';
     GoogleService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BackendServiceProvider,
-    Push
-
+    Push,
+    GooglePlus,
+    OneSignal,
+    SocialSharing
   ]
 })
 export class AppModule {}
