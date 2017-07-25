@@ -62,7 +62,7 @@ func (postgres *db_postgres) getAmount(id string) int  {
 	return amount
 }
 
-func (postgres *db_postgres) getBottles() []Bottle  {
+func (postgres *db_postgres) getBottles(path string) []Bottle  {
 	if(postgres.bottles == nil){
 		rows, err := postgres.db.Query("SELECT id, name, priceperliter FROM bottles")
 		if err != nil {

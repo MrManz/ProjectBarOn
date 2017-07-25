@@ -3,7 +3,7 @@ package main
 type db_connector interface {
 	addToBill(id string, amount int)
 	getAmount(id string) int
-	getBottles() []Bottle
+	getBottles(path string) []Bottle
 	getRecipes() []Recipe
 	getIngredients(id int) []Ingredient
 }
@@ -12,6 +12,7 @@ type Bottle struct {
 	Id int
 	Name string
 	PricePerLiter int
+	PathToPicture string
 }
 
 type Recipe struct {

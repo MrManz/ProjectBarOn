@@ -8,13 +8,15 @@ import (
 	"net/http"
 	"path/filepath"
 	"github.com/rs/cors"
+	"flag"
+	"fmt"
 )
 
 var properties map[string]string
 
 func main() {
 
-	absPath, _ := filepath.Abs("main/config.json")
+	absPath, _ := filepath.Abs("config.json")
 	file, e := ioutil.ReadFile(absPath)
 	if e != nil {
 		panic(e)
@@ -23,10 +25,7 @@ func main() {
 	json.Unmarshal(file, &properties)
 	//Testrequest: GET localhost:8080/beispiel
 	//Header: Authorization=HIER TOKEN EINFÜGEN
-	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:8000"},
-		AllowCredentials: true,
-	})
+	c := cors.AllowAll()
 	http.Handle("/beispiel", c.Handler(authMiddleware(CreateBeispielHandler())))
 	db_factory :=Create_db_connector_factory()
 	db_con:=db_factory.make(properties["database"])
@@ -38,5 +37,10 @@ func main() {
 	http.Handle("/getbottles", c.Handler(bottlesHandler))
 	recipesHandler:=CreateRecipesHandler(db_con)
 	http.Handle("/getrecipes", c.Handler(recipesHandler))
+	directory := flag.String("d", ".", "the directory of static file to host")
+	flag.Parse()
+	fs := http.FileServer(http.Dir(*directory))
+	fmt.Println(directory)
+	http.Handle("/", c.Handler(fs))
 	http.ListenAndServe(":8080", nil)
 }

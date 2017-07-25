@@ -20,13 +20,13 @@ func (mock *db_mock) getAmount(id string) int  {
 	return mock.account[id]
 }
 
-func (mock *db_mock) getBottles() []Bottle  {
+func (mock *db_mock) getBottles(path string) []Bottle  {
 	bottles := make([]Bottle, 5)
-	bottles[0]= Bottle{Id:0, Name:"Vodka", PricePerLiter:2000}
-	bottles[1]= Bottle{Id:1, Name:"Rum", PricePerLiter:2500}
-	bottles[2]= Bottle{Id:2, Name:"Orangensaft", PricePerLiter:1000}
-	bottles[3]= Bottle{Id:3, Name:"Apfelsaft", PricePerLiter:1000}
-	bottles[4]= Bottle{Id:4, Name:"Cola", PricePerLiter:1000}
+	bottles[0]= Bottle{Id:0, Name:"Vodka", PricePerLiter:2000, PathToPicture:"http://"+path+"/pictures/vodka.jpg"}
+	bottles[1]= Bottle{Id:1, Name:"Rum", PricePerLiter:2500, PathToPicture:"http://"+path+"/pictures/captain.png"}
+	bottles[2]= Bottle{Id:2, Name:"Orangensaft", PricePerLiter:1000, PathToPicture:"http://"+path+"/pictures/osaft.jpg"}
+	bottles[3]= Bottle{Id:3, Name:"Apfelsaft", PricePerLiter:1000, PathToPicture:"http://"+path+"/pictures/apfelsaft.jpg"}
+	bottles[4]= Bottle{Id:4, Name:"Cola", PricePerLiter:1000, PathToPicture:"http://"+path+"/pictures/cola.jpg"}
 	return bottles
 }
 
