@@ -62,7 +62,7 @@ func (postgres *db_postgres) getAmount(id string) int  {
 	return amount
 }
 
-func (postgres *db_postgres) getBottles() []Bottle  {
+func (postgres *db_postgres) getBottles(path string) []Bottle  {
 	if(postgres.bottles == nil){
 		rows, err := postgres.db.Query("SELECT id, name, priceperliter FROM bottles")
 		if err != nil {
@@ -97,34 +97,38 @@ func (postgres *db_postgres) getRecipes() []Recipe  {
 			os.Exit(1)
 		}
 		recipes := make([]Recipe, 0)
-		var recipeId int
 		for rows.Next() {
+			var recipeId int
 			var name string
 			err = rows.Scan(&recipeId, &name)
 			if err != nil {
 				panic(err)
 				os.Exit(1)
 			}
-			rows, err := postgres.db.Query("SELECT id_bottle, volume FROM ingredients WHERE id_recipe="+strconv.Itoa(recipeId))
-			if err != nil {
-				panic(err)
-				os.Exit(1)
-			}
-			ingredients := make([]Ingredient, 0)
-			for rows.Next() {
-				var id_bottle, volume int
-				err = rows.Scan(&id_bottle, &volume)
-				if err != nil {
-					panic(err)
-					os.Exit(1)
-				}
-				ingredient:=Ingredient{Id:id_bottle, Volume:volume}
-				ingredients = append(ingredients, ingredient)
-			}
-			recipe:=Recipe{Name:name, Ingredients:ingredients}
+			recipe:=Recipe{Name:name, Id:recipeId}
 			recipes = append(recipes, recipe)
 		}
 		postgres.recipes = recipes
 	}
 	return postgres.recipes
+}
+
+func (postgres *db_postgres) getIngredients(id int) []Ingredient  {
+	rows, err := postgres.db.Query("SELECT id_bottle, volume FROM ingredients WHERE id_recipe="+strconv.Itoa(id))
+	if err != nil {
+		panic(err)
+		os.Exit(1)
+	}
+	ingredients := make([]Ingredient, 0)
+	for rows.Next() {
+		var id_bottle, volume int
+		err = rows.Scan(&id_bottle, &volume)
+		if err != nil {
+			panic(err)
+			os.Exit(1)
+		}
+		ingredient:=Ingredient{Id:id_bottle, Volume:volume}
+		ingredients = append(ingredients, ingredient)
+	}
+	return ingredients
 }

@@ -15,7 +15,7 @@ func CreateBottlesHandler(db_con db_connector) *GetBottlesHandler {
 }
 
 func (getBottlesHandler *GetBottlesHandler)ServeHTTP(w http.ResponseWriter, r *http.Request)  {
-	bottles:=getBottlesHandler.db.getBottles()
+	bottles:=getBottlesHandler.db.getBottles(r.Host)
 	bottlesJSON,_:=json.Marshal(bottles)
 	fmt.Fprintf(w, string(bottlesJSON))
 }
