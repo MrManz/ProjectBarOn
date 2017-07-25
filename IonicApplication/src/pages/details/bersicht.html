@@ -22,15 +22,16 @@
       </ion-avatar>
 
       <ion-label>
-        {{ingredients.Bottle}}
+        {{ingredients.Name}}
       </ion-label>
 
-      <ion-range step=10 min="0" max="200" [(ngModel)]="ingredients.volume" color="secondary">
+      <ion-range class="range range-ios range-ios-secondary range-has-pin ng-valid ng-touched ng-dirty" step=10 min="0" max="200" [(ngModel)]="ingredients.Volume" color="secondary">
         <ion-label range-left>0</ion-label>
         <ion-label range-right>200</ion-label>
       </ion-range>
 
     </ion-item>
+
 
   </ion-list>
   <ion-fab right bottom>

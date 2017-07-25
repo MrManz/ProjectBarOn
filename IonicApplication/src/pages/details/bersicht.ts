@@ -22,9 +22,9 @@ export class BersichtPage {
           let ingriedients = result as Array<number>;
           for (let incredient of ingriedients) {
             let zwischen = {
-              Bottle: bottles[incredient["Id"]].Name,
+              Name: bottles[incredient["Id"]].Name,
               PathToPicture: bottles[incredient["Id"]].PathToPicture,
-              volume: incredient["Volume"],
+              Volume: incredient["Volume"],
               Id: incredient["Id"]
             }
             that.cocktail.push(zwischen);
@@ -90,6 +90,9 @@ export class BersichtPage {
       }
     )
   }
+  hasValue(obj, key, value) {
+    return obj.hasOwnProperty(key) && obj[key] === value;
+  }
 
   addIngredient() {
     this.readBottlesData().then(function (bottles) {
@@ -106,9 +109,12 @@ export class BersichtPage {
           // if()
           alert.addInput({
             type: 'checkbox',
-            id: bottle["Id"],
             label: bottle["Name"],
-            value: bottle["Name"],
+            value: {
+              "Id": bottle["Id"],
+              "Name": bottle["Name"],
+              "PathToPicture": bottle["PathToPicture"]
+            },
             checked: checked
           });
         }
@@ -116,7 +122,25 @@ export class BersichtPage {
         alert.addButton({
           text: 'Ändern',
           handler: data => {
+            that.name = "Eigenmix"
             console.log('Checkbox data:', data);
+            for (let selectedBottles of data) {
+              if(!(that.cocktail.some(function(bottle) { return that.hasValue(bottle, "Id", selectedBottles["Id"]); }))){
+                let zwischen = {
+                  Name: selectedBottles["Name"],
+                  PathToPicture: selectedBottles["PathToPicture"],
+                  Volume: "0",
+                  Id: selectedBottles["Id"]
+                }
+                that.cocktail.push(zwischen);
+              }
+            }
+            for (let actualBottles of that.cocktail) {
+              if(!(data.some(function(bottle) { return that.hasValue(bottle, "Id", actualBottles["Id"]); }))){
+                var index = that.cocktail.indexOf(actualBottles);
+                that.cocktail.splice(index, 1);
+              }
+            }
           }
         });
         alert.present();
