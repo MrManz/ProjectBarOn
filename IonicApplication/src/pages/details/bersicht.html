@@ -18,14 +18,14 @@
     <ion-item *ngFor="let ingredients of cocktail" color="none" id="rezeptAuswHlen-list-item14">
 
       <ion-avatar item-left>
-        <img src="{{ingredients.PathToPicture}}">
+        <img class="drinkpicture" src="{{ingredients.PathToPicture}}">
       </ion-avatar>
 
       <ion-label>
         {{ingredients.Name}}
       </ion-label>
 
-      <ion-range class="range range-ios range-ios-secondary range-has-pin ng-valid ng-touched ng-dirty" step=10 min="0" max="200" [(ngModel)]="ingredients.Volume" color="secondary">
+      <ion-range debounce="400" pin="true" step=10 min="0" max="200" [(ngModel)]="ingredients.Volume" color="secondary" (ionChange)="changeRangeSlider($event,ingredients.Id)">
         <ion-label range-left>0</ion-label>
         <ion-label range-right>200</ion-label>
       </ion-range>

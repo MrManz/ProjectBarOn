@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component,NgZone} from '@angular/core';
 import {NativeStorage} from 'ionic-native';
 import {App, NavController, NavParams, AlertController, Platform} from 'ionic-angular';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
@@ -10,10 +10,11 @@ var that;
   templateUrl: 'bersicht.html'
 })
 export class BersichtPage {
-  cocktail = [];
-  name = "";
+  private cocktail = [];
+  private name = "";
+  private maximum = 500;
 
-  constructor(private app: App, public navCtrl: NavController, private backendservice: BackendServiceProvider, private params: NavParams, private socialSharing: SocialSharing, private alertCtrl: AlertController, public platform: Platform) {
+  constructor(private app: App, public navCtrl: NavController, private backendservice: BackendServiceProvider, private params: NavParams, private socialSharing: SocialSharing, private alertCtrl: AlertController, public platform: Platform, private zone: NgZone) {
     that = this
     this.readBottlesData().then(function (bottles) {
         let id = that.params.get("RecipeID")
@@ -75,6 +76,24 @@ export class BersichtPage {
       });
     }
   }
+  changeRangeSlider(data,Id){
+    let currentTotalAmount = 0;
+    this.cocktail.forEach(function(element){
+      currentTotalAmount += element.Volume
+    })
+    if(currentTotalAmount > this.maximum){
+      let reduce = currentTotalAmount - this.maximum;
+      reduce = reduce / (this.cocktail.length - 1);
+      this.cocktail.forEach(function(element){
+        if(element.Id != Id){
+          element.Volume = element.Volume - reduce;
+        }
+      })
+    }
+    this.zone.run(() => {
+      //Callback of Object.forEach breaks NgZone -> so run Ng.zone() to update UI
+    });
+  }
 
   readBottlesData() {
     return new Promise(
@@ -106,7 +125,6 @@ export class BersichtPage {
               checked = true;
             }
           }
-          // if()
           alert.addInput({
             type: 'checkbox',
             label: bottle["Name"],
