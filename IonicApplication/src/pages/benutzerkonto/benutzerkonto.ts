@@ -56,6 +56,7 @@ export class BenutzerkontoPage {
     loginModal.onDidDismiss(function () {
       that.readUserData().then(function (user) {
           that.user = user;
+          that.loadBottles();
         }
         , function (error) {
           that.openLoginModal()
