@@ -4,7 +4,7 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "types": ["gapi", "gapi.auth2" , "jquery", "phonegap-plugin-push"],
+    "types": ["gapi", "gapi.auth2" , "jquery"],
     "typeRoots" : ["./node_modules/@types"],
     "lib": [
       "dom",
