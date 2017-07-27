@@ -5,14 +5,23 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content class="no-scroll" padding style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page6">
+<ion-content class="no-scroll" padding
+             style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page6">
   <ion-list id="rezeptAuswHlen-list3">
-    <ion-item *ngFor="let drinks of recipes" color="none" (click)=goToDetails(drinks) id="rezeptAuswHlen-list-item14">
-      <ion-avatar item-left>
-        <img src="{{drinks.picture}}">
-      </ion-avatar>
-      {{drinks.Name}}
-      <ion-icon name="arrow-forward" item-right></ion-icon>
-    </ion-item>
+    <ion-item-sliding #item>
+      <ion-item *ngFor="let drinks of recipes" color="none" (click)=goToDetails(drinks) id="rezeptAuswHlen-list-item14">
+        <ion-avatar item-left>
+          <img src="{{drinks.picture}}">
+        </ion-avatar>
+        {{drinks.Name}}
+        <ion-icon name="arrow-forward" item-right></ion-icon>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button expandable  color="secondary" (click)="like(item)">
+          <ion-icon name="thumbs-up"></ion-icon>
+          Like
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

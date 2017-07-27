@@ -22,4 +22,8 @@ export class RezeptAuswHlenPage {
     if (!params) params = {};
     this.navCtrl.push(BersichtPage, { RecipeID: params.Id, RecipeName: params.Name});
   }
+
+  like(item){
+    //implement like according to Peter
+  }
 }
