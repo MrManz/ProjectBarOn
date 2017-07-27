@@ -18,6 +18,7 @@ import { Push } from '@ionic-native/push';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { OneSignal } from '@ionic-native/onesignal';
+import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { OneSignal } from '@ionic-native/onesignal';
     Push,
     GooglePlus,
     OneSignal,
+    DeviceOrientation,
     SocialSharing
   ]
 })

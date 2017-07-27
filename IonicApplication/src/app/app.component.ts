@@ -16,6 +16,9 @@ export class MyApp {
   constructor(public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public alertCtrl: AlertController, private oneSignal: OneSignal) {
     that = this;
     platform.ready().then(() => {
+     /* window.addEventListener("orientationchange", function() {
+        //alert(window.orientation);
+      }, false);*/
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();

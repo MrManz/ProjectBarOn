@@ -23,6 +23,7 @@ ionic cordova plugin add cordova-plugin-nativestorage
 npm install --save @ionic-native/onesignal
 npm install --save @ionic-native/google-plus
 npm install --save @ionic-native/social-sharing
+npm install --save @ionic-native/device-orientation
 
 RUN:
 $ ionic cordova platform add ios

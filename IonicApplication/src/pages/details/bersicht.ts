@@ -1,8 +1,10 @@
-import {Component,NgZone} from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {NativeStorage} from 'ionic-native';
-import {App, NavController, NavParams, AlertController, Platform} from 'ionic-angular';
+import {NavParams, AlertController, Platform} from 'ionic-angular';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {SocialSharing} from '@ionic-native/social-sharing';
+import {DeviceOrientation, DeviceOrientationCompassHeading} from '@ionic-native/device-orientation';
+
 var that;
 
 @Component({
@@ -13,8 +15,15 @@ export class BersichtPage {
   private cocktail = [];
   private name = "";
   private maximum = 500;
+  static subscription;
 
-  constructor(private app: App, public navCtrl: NavController, private backendservice: BackendServiceProvider, private params: NavParams, private socialSharing: SocialSharing, private alertCtrl: AlertController, public platform: Platform, private zone: NgZone) {
+  constructor(private backendservice: BackendServiceProvider,
+              private params: NavParams,
+              private socialSharing: SocialSharing,
+              private alertCtrl: AlertController,
+              private platform: Platform,
+              private zone: NgZone,
+              private deviceOrientation: DeviceOrientation) {
     that = this
     this.readBottlesData().then(function (bottles) {
         let id = that.params.get("RecipeID")
@@ -44,7 +53,7 @@ export class BersichtPage {
         subTitle: 'Möchtest du eine deinen Cocktail mit deinen Freunden teilen ?',
         buttons: [
           {
-            text: 'NEIN',
+            text: 'Nein',
             role: 'cancel'
           },
           {
@@ -76,16 +85,18 @@ export class BersichtPage {
       });
     }
   }
-  changeRangeSlider(data,Id){
+
+  changeRangeSlider(data, Id) {
+    this.name = "Mix your own Drink"
     let currentTotalAmount = 0;
-    this.cocktail.forEach(function(element){
+    this.cocktail.forEach(function (element) {
       currentTotalAmount += element.Volume
     })
-    if(currentTotalAmount > this.maximum){
+    if (currentTotalAmount > this.maximum) {
       let reduce = currentTotalAmount - this.maximum;
       reduce = reduce / (this.cocktail.length - 1);
-      this.cocktail.forEach(function(element){
-        if(element.Id != Id){
+      this.cocktail.forEach(function (element) {
+        if (element.Id != Id) {
           element.Volume = element.Volume - reduce;
         }
       })
@@ -109,6 +120,7 @@ export class BersichtPage {
       }
     )
   }
+
   hasValue(obj, key, value) {
     return obj.hasOwnProperty(key) && obj[key] === value;
   }
@@ -140,10 +152,12 @@ export class BersichtPage {
         alert.addButton({
           text: 'Ändern',
           handler: data => {
-            that.name = "Eigenmix"
+            that.name = "Mix your own Drink"
             console.log('Checkbox data:', data);
             for (let selectedBottles of data) {
-              if(!(that.cocktail.some(function(bottle) { return that.hasValue(bottle, "Id", selectedBottles["Id"]); }))){
+              if (!(that.cocktail.some(function (bottle) {
+                  return that.hasValue(bottle, "Id", selectedBottles["Id"]);
+                }))) {
                 let zwischen = {
                   Name: selectedBottles["Name"],
                   PathToPicture: selectedBottles["PathToPicture"],
@@ -154,7 +168,9 @@ export class BersichtPage {
               }
             }
             for (let actualBottles of that.cocktail) {
-              if(!(data.some(function(bottle) { return that.hasValue(bottle, "Id", actualBottles["Id"]); }))){
+              if (!(data.some(function (bottle) {
+                  return that.hasValue(bottle, "Id", actualBottles["Id"]);
+                }))) {
                 var index = that.cocktail.indexOf(actualBottles);
                 that.cocktail.splice(index, 1);
               }
@@ -168,4 +184,27 @@ export class BersichtPage {
     );
   }
 
+  MixWithOrientationStart() {
+    console.log("pressed");
+/*    setInterval(function () {
+      this.deviceOrientation.getCurrentHeading().then(
+        (data: DeviceOrientationCompassHeading) => console.log(data),
+        (error: any) => console.log(error)
+      );
+    },1000);*/
+
+    var subscription = that.deviceOrientation.watchHeading({frequency: 1000}).subscribe(
+      function (data: DeviceOrientationCompassHeading) {
+        //console.log(data)
+      }
+    );
+
+  }
+
+  MixWithOrientationEnd() {
+    // if(this.subscription){
+    //   this.subscription.unsubscribe();
+    //   alert("unsub")
+    // }
+  }
 }
