@@ -1,6 +1,6 @@
 import {Component, NgZone} from '@angular/core';
 import {NativeStorage} from 'ionic-native';
-import {NavParams, AlertController, Platform} from 'ionic-angular';
+import {NavParams, AlertController, Platform, ModalController} from 'ionic-angular';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {DeviceOrientation, DeviceOrientationCompassHeading} from '@ionic-native/device-orientation';
@@ -23,7 +23,8 @@ export class BersichtPage {
               private alertCtrl: AlertController,
               private platform: Platform,
               private zone: NgZone,
-              private deviceOrientation: DeviceOrientation) {
+              private deviceOrientation: DeviceOrientation,
+              private modal: ModalController) {
     that = this
     this.readBottlesData().then(function (bottles) {
         let id = that.params.get("RecipeID")
@@ -186,7 +187,7 @@ export class BersichtPage {
 
   MixWithOrientationStart() {
     console.log("pressed");
-/*    setInterval(function () {
+      /*setInterval(function () {
       this.deviceOrientation.getCurrentHeading().then(
         (data: DeviceOrientationCompassHeading) => console.log(data),
         (error: any) => console.log(error)
@@ -206,5 +207,10 @@ export class BersichtPage {
     //   this.subscription.unsubscribe();
     //   alert("unsub")
     // }
+  }
+
+  openInfoModal(){
+    const infoModal = this.modal.create('InfoModalPage');
+    infoModal.present();
   }
 }
