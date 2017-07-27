@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ModalController} from 'ionic-angular';
+import {ModalController, AlertController} from 'ionic-angular';
 import {NativeStorage} from 'ionic-native';
 import {LoginModalPage} from '../login-modal/login-modal';
 import {GoogleService} from '../../providers/google-service/google.service';
@@ -19,7 +19,10 @@ export class BenutzerkontoPage {
   };
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  constructor(public modalCtrl: ModalController, private googleService: GoogleService, private backendservice: BackendServiceProvider) {
+  constructor(public modalCtrl: ModalController,
+              private googleService: GoogleService,
+              private backendservice: BackendServiceProvider,
+              private alertCtl: AlertController ) {
     that = this;
     this.readUserData().then(function (user) {
         that.user = user;
@@ -37,6 +40,27 @@ export class BenutzerkontoPage {
 
   logout(params) {
     if (!params) params = {};
+    let alert = this.alertCtl.create({
+      title: 'Möchtest du dich wirklich abmelden?',
+      buttons: [
+        {
+          text: 'Nein',
+          role: 'nein',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text:'Ja',
+          handler: () => {
+            that.doLogout()
+          }
+        }]
+    });
+    alert.present();
+  }
+
+  doLogout(){
     NativeStorage.remove('user');
     this.openLoginModal();
     this.user = {
