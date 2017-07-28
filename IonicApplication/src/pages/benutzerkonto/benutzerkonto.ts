@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {Item, NavController, ModalController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {ModalController, AlertController} from 'ionic-angular';
 import {NativeStorage} from 'ionic-native';
 import {LoginModalPage} from '../login-modal/login-modal';
 import {GoogleService} from '../../providers/google-service/google.service';
@@ -17,10 +17,12 @@ export class BenutzerkontoPage {
     picture: "",
     token: ""
   };
-  @ViewChild('AccountListItem') AccountListItem: Item;
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private googleService: GoogleService, private backendservice: BackendServiceProvider) {
+  constructor(public modalCtrl: ModalController,
+              private googleService: GoogleService,
+              private backendservice: BackendServiceProvider,
+              private alertCtl: AlertController ) {
     that = this;
     this.readUserData().then(function (user) {
         that.user = user;
@@ -38,6 +40,27 @@ export class BenutzerkontoPage {
 
   logout(params) {
     if (!params) params = {};
+    let alert = this.alertCtl.create({
+      title: 'Möchtest du dich wirklich abmelden?',
+      buttons: [
+        {
+          text: 'Nein',
+          role: 'nein',
+          handler: () => {
+            alert.dismiss();
+          }
+        },
+        {
+          text:'Ja',
+          handler: () => {
+            that.doLogout()
+          }
+        }]
+    });
+    alert.present();
+  }
+
+  doLogout(){
     NativeStorage.remove('user');
     this.openLoginModal();
     this.user = {
@@ -49,11 +72,6 @@ export class BenutzerkontoPage {
     this.googleService.googleSignOut();
   }
 
-  goToBenutzerkonto(params) {
-    if (!params) params = {};
-    this.navCtrl.push(BenutzerkontoPage);
-  }
-
   openLoginModal() {
     let loginModal = this.modalCtrl.create(LoginModalPage, {
       showBackdrop: false,
@@ -62,6 +80,7 @@ export class BenutzerkontoPage {
     loginModal.onDidDismiss(function () {
       that.readUserData().then(function (user) {
           that.user = user;
+          that.loadBottles();
         }
         , function (error) {
           that.openLoginModal()

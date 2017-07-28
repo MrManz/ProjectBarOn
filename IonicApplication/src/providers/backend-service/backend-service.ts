@@ -11,6 +11,7 @@ import { Http } from '@angular/http'
 @Injectable()
 export class BackendServiceProvider {
   data;
+  host = "http://localhost:8080" //"http://10.0.2.2:8080"
 
   constructor(private http: Http) {
 
@@ -18,7 +19,7 @@ export class BackendServiceProvider {
 
   loadRecipes() {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:8080/getrecipes')
+      this.http.get(this.host+'/getrecipes')
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -31,7 +32,7 @@ export class BackendServiceProvider {
 
   loadRecipe(id: String) {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:8080/getrecipe/' + id)
+      this.http.get(this.host+'/getrecipes?id=' + id)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -43,7 +44,7 @@ export class BackendServiceProvider {
 
   loadBottles() {
     return new Promise((resolve, reject) => {
-      this.http.get('http://localhost:8080/getbottles')
+      this.http.get(this.host+'/getbottles')
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

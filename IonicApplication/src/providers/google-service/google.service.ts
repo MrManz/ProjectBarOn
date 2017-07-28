@@ -1,7 +1,8 @@
-import {Injectable} from  '@angular/core';
-import {GooglePlus, NativeStorage} from 'ionic-native';
+import {Injectable} from '@angular/core';
+import { NativeStorage} from 'ionic-native';
 import { Platform } from 'ionic-angular';
-import { Events } from 'ionic-angular';
+import { Events, AlertController  } from 'ionic-angular';
+import { GooglePlus } from '@ionic-native/google-plus';
 var that: GoogleService;
 
 @Injectable()
@@ -9,8 +10,7 @@ export class GoogleService {
 isApp: boolean;
 SCOPE = 'profile';
 GoogleAuth: any;
-
-  constructor(public platform: Platform, public events: Events) {
+  constructor(public platform: Platform, public events: Events,public alert: AlertController, private googlePlus: GooglePlus ) {
     if (this.platform.is('core') || this.platform.is('mobileweb')) {
       this.isApp = false;
     } else {
@@ -21,9 +21,8 @@ GoogleAuth: any;
 
   public googleSignIn() {
       if (this.isApp) {
-        GooglePlus.login({
-          'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-          'webClientId': '920043719912-b9pam9s4ak2g3f3elv421hk5d2jqhmjg.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+        this.googlePlus.login({
+          'webClientId': '920043719912-b9pam9s4ak2g3f3elv421hk5d2jqhmjg.apps.googleusercontent.com',
           'offline': true
         })
           .then(function (user) {
@@ -35,7 +34,9 @@ GoogleAuth: any;
             }).then(function () {
                 that.events.publish('nativestorage:filled');
             })
-          });
+          },function (msg) {
+        })
+        ;
       } else {
         gapi.load('client:auth2',  this.initClient);
       }
@@ -65,7 +66,7 @@ GoogleAuth: any;
 
   public googleSignOut(){
     if (this.isApp) {
-      GooglePlus.logout();
+      this.googlePlus.logout();
       console.log(this.isApp);
     } else {
       this.GoogleAuth.signOut();
