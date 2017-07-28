@@ -74,14 +74,16 @@ func (postgres *db_postgres) getBottles(path string) []Bottle  {
 			var id int
 			var name string
 			var priceperliter int
-			err = rows.Scan(&id, &name, &priceperliter)
+			var pathtopicture string
+			err = rows.Scan(&id, &name, &priceperliter, &pathtopicture)
 			if err != nil {
 				panic(err)
 				os.Exit(1)
 			}
 			bottle:=Bottle{ Id:id,
 				Name:name,
-				PricePerLiter:priceperliter}
+				PricePerLiter:priceperliter,
+				PathToPicture:pathtopicture}
 			bottles = append(bottles, bottle)
 		}
 		postgres.bottles = bottles
