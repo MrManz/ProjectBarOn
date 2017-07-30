@@ -15,19 +15,17 @@
 
   <ion-list id="rezeptAuswHlen-list3">
 
-    <ion-item *ngFor="let ingredients of cocktail" color="none" id="rezeptAuswHlen-list-item14" (mouseup)="MixWithOrientationEnd()" (press)="MixWithOrientationStart(ingredients.Id)">
-
+    <ion-item *ngFor="let ingredients of cocktail" color="none" (click)="MixWithOrientationClick(ingredients.Id)">
       <ion-avatar item-left>
         <img class="drinkpicture" src="{{ingredients.PathToPicture}}">
       </ion-avatar>
 
       <ion-range class="rangeSlider" debounce="400" pin="true" step=1 min="0" max="200" [(ngModel)]="ingredients.Volume"
                  color="secondary"
-                 (ionChange)="changeRangeSlider($event,ingredients.Id)">
+                 (ionChange)="changeRangeSlider(ingredients.Id)">
         <ion-label range-left>0</ion-label>
         <ion-label range-right>200</ion-label>
       </ion-range>
-
     </ion-item>
 
 
@@ -44,6 +42,11 @@
         <ion-icon name="create"></ion-icon>
       </button>
     </ion-fab-list>
+  </ion-fab>
+  <ion-fab left bottom>
+    <button ion-fab color="secondary" (click)="SubmitOrder()">
+      <ion-icon name="cart"></ion-icon>
+    </button>
   </ion-fab>
 
 </ion-content>

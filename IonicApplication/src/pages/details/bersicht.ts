@@ -3,7 +3,6 @@ import {NativeStorage} from 'ionic-native';
 import {NavParams, AlertController, Platform, ModalController} from 'ionic-angular';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {SocialSharing} from '@ionic-native/social-sharing';
-import {DeviceOrientation, DeviceOrientationCompassHeading} from '@ionic-native/device-orientation';
 
 var that;
 
@@ -15,7 +14,9 @@ export class BersichtPage {
   private cocktail = [];
   private name = "";
   private maximum = 500;
-  static subscription;
+  private eventSet = false;
+  private ItemClickedId;
+  private Degree = 90;
 
   constructor(private backendservice: BackendServiceProvider,
               private params: NavParams,
@@ -23,7 +24,6 @@ export class BersichtPage {
               private alertCtrl: AlertController,
               private platform: Platform,
               private zone: NgZone,
-              private deviceOrientation: DeviceOrientation,
               private modal: ModalController) {
     that = this
     this.readBottlesData().then(function (bottles) {
@@ -87,7 +87,7 @@ export class BersichtPage {
     }
   }
 
-  changeRangeSlider(data, Id) {
+  changeRangeSlider(Id) {
     this.name = "Mix your own Drink"
     let currentTotalAmount = 0;
     this.cocktail.forEach(function (element) {
@@ -185,31 +185,62 @@ export class BersichtPage {
     );
   }
 
-  MixWithOrientationStart() {
-    console.log("pressed");
-      /*setInterval(function () {
-      this.deviceOrientation.getCurrentHeading().then(
-        (data: DeviceOrientationCompassHeading) => console.log(data),
-        (error: any) => console.log(error)
-      );
-    },1000);*/
+  MixWithOrientationClick(id) {
+    if (!(this.eventSet)) {
+      window.addEventListener("deviceorientation", this.deviceOrientationChanged)
+      that.ItemClickedId = id;
+      that.eventSet = true;
+    } else {
+      window.removeEventListener("deviceorientation", this.deviceOrientationChanged);
+      that.eventSet = false;
+    }
+  }
 
-    var subscription = that.deviceOrientation.watchHeading({frequency: 1000}).subscribe(
-      function (data: DeviceOrientationCompassHeading) {
-        //console.log(data)
+  deviceOrientationChanged(event) {
+    var absolute = event.absolute;
+    var beta = event.beta;
+    if(Math.abs(that.Degree - beta) > 10){
+      that.Degree = beta;
+      console.log(beta);
+      that.cocktail.forEach(function (element) {
+        if (element.Id == that.ItemClickedId) {
+          console.log(element.Volume)
+          element.Volume = element.Volume + ((beta - 90)*(-1));
+            if(element.Volume > 200){
+              element.Volume = 200;
+            }
+        }
+      })
+    }
+    that.changeRangeSlider(that.ItemClickedId)
+  }
+
+  SubmitOrder() {
+    //Send Order to Backend
+    this.readUserData().then(function (user) {
+      console.log(user["token"]);
+      }
+      , function (error) {
       }
     );
-
   }
 
-  MixWithOrientationEnd() {
-    // if(this.subscription){
-    //   this.subscription.unsubscribe();
-    //   alert("unsub")
-    // }
+  readUserData() {
+    return new Promise(
+      (resolve, reject) => {
+        var bottles;
+        NativeStorage.getItem('user')
+          .then(function (data) {
+            bottles = data
+            resolve(bottles)
+          }, function (error) {
+            reject(error);
+          });
+      }
+    )
   }
 
-  openInfoModal(){
+  openInfoModal() {
     const infoModal = this.modal.create('InfoModalPage');
     infoModal.present();
   }
