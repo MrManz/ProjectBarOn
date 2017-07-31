@@ -9,7 +9,7 @@
              style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page6">
   <ion-list id="rezeptAuswHlen-list3">
     <ion-item-sliding #item>
-      <ion-item *ngFor="let drinks of recipes" color="none" (click)=goToDetails(drinks) id="rezeptAuswHlen-list-item14">
+      <ion-item *ngFor="let drinks of recipes" color="none" (click)=goToCocktailErstellenPage(drinks) id="rezeptAuswHlen-list-item14">
         <ion-avatar item-left>
           <img src="{{drinks.picture}}">
         </ion-avatar>
