@@ -199,16 +199,16 @@ export class BersichtPage {
   deviceOrientationChanged(event) {
     var absolute = event.absolute;
     var beta = event.beta;
-    if(Math.abs(that.Degree - beta) > 10){
+    if (Math.abs(that.Degree - beta) > 10) {
       that.Degree = beta;
       console.log(beta);
       that.cocktail.forEach(function (element) {
         if (element.Id == that.ItemClickedId) {
           console.log(element.Volume)
-          element.Volume = element.Volume + ((beta - 90)*(-1));
-            if(element.Volume > 200){
-              element.Volume = 200;
-            }
+          element.Volume = element.Volume + ((beta - 90) * (-1));
+          if (element.Volume > 200) {
+            element.Volume = 200;
+          }
         }
       })
     }
@@ -218,9 +218,11 @@ export class BersichtPage {
   SubmitOrder() {
     //Send Order to Backend
     this.readUserData().then(function (user) {
-      console.log(user["token"]);
+        console.log(user["token"]);
       }
       , function (error) {
+        console.log("Couldn't read user-Token")
+        console.log(error);
       }
     );
   }
