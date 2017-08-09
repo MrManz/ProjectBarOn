@@ -54,6 +54,8 @@ void setup(void)
 
   // Print the IP address
   Serial.println(WiFi.localIP());
+
+  pinMode(D5, OUTPUT);
 }
 
 void loop() {
@@ -76,6 +78,6 @@ int ledControl(String command) {
   // Get state from command
   int state = command.toInt();
 
-  digitalWrite(0 ,state);
+  digitalWrite(D5 ,state);
   return 1;
 }

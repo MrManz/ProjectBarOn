@@ -4,7 +4,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { BenutzerkontoPage } from '../pages/benutzerkonto/benutzerkonto';
 import { CocktailErstellenPage } from '../pages/cocktail-erstellen/cocktail-erstellen';
-import { BersichtPage } from '../pages/details/bersicht';
 import { RezeptAuswHlenPage } from '../pages/rezept-ausw-hlen/rezept-ausw-hlen';
 import { BestellungenPage } from '../pages/bestellungen/bestellungen';
 import { TabsControllerPage } from '../pages/tabs-controller/tabs-controller';
@@ -18,14 +17,12 @@ import { Push } from '@ionic-native/push';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { OneSignal } from '@ionic-native/onesignal';
-import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 @NgModule({
   declarations: [
     MyApp,
     BenutzerkontoPage,
     CocktailErstellenPage,
-    BersichtPage,
     RezeptAuswHlenPage,
     BestellungenPage,
     TabsControllerPage,
@@ -41,7 +38,6 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
     MyApp,
     BenutzerkontoPage,
     CocktailErstellenPage,
-    BersichtPage,
     RezeptAuswHlenPage,
     BestellungenPage,
     TabsControllerPage,
@@ -56,7 +52,6 @@ import { DeviceOrientation } from '@ionic-native/device-orientation';
     Push,
     GooglePlus,
     OneSignal,
-    DeviceOrientation,
     SocialSharing
   ]
 })

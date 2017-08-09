@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { BersichtPage } from '../details/bersicht';
+import { CocktailErstellenPage } from '../cocktail-erstellen/cocktail-erstellen'
 import { BackendServiceProvider } from '../../providers/backend-service/backend-service';
 var that;
 @Component({
@@ -17,10 +17,8 @@ export class RezeptAuswHlenPage {
       that.recipes = result;
     });
   }
-
-  goToDetails(params){
-    if (!params) params = {};
-    this.navCtrl.push(BersichtPage, { RecipeID: params.Id, RecipeName: params.Name});
+  goToCocktailErstellenPage(params){
+    this.navCtrl.push(CocktailErstellenPage,{ RecipeID: params.Id, RecipeName: params.Name} )
   }
 
   like(item){

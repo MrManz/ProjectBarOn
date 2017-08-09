@@ -30,7 +30,7 @@ GoogleAuth: any;
               name: user.displayName,
               email: user.email,
               picture: user.imageUrl,
-              token: user.id_token
+              token: user.idToken
             }).then(function () {
                 that.events.publish('nativestorage:filled');
             })

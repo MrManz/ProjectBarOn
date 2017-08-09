@@ -1,8 +1,52 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Cocktail erstellen
+      {{name}}
     </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="share()">
+        <ion-icon name="share"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content class="no-scroll" padding style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page3"></ion-content>
+<ion-content class="no-scroll" padding
+             style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page7">
+
+  <ion-list id="rezeptAuswHlen-list3">
+
+    <ion-item *ngFor="let ingredients of cocktail" color="none" (click)="MixWithOrientationClick(ingredients.Id)">
+      <ion-avatar item-left>
+        <img class="drinkpicture" src="{{ingredients.PathToPicture}}">
+      </ion-avatar>
+
+      <ion-range class="rangeSlider" debounce="400" pin="true" step=1 min="0" max="200" [(ngModel)]="ingredients.Volume"
+                 color="secondary"
+                 (ionChange)="changeRangeSlider(ingredients.Id)">
+        <ion-label range-left>0</ion-label>
+        <ion-label range-right>200</ion-label>
+      </ion-range>
+    </ion-item>
+
+
+  </ion-list>
+  <ion-fab right bottom>
+    <button ion-fab color="danger">
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
+    <ion-fab-list side="left">
+      <button ion-fab color="primary" (click)="openInfoModal()">
+        <ion-icon name="help"></ion-icon>
+      </button>
+      <button ion-fab color="secondary" (click)="addIngredient()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-fab left bottom>
+    <button ion-fab color="secondary" (click)="SubmitOrder()">
+      <ion-icon name="cart"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>
