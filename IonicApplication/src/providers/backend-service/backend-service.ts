@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { Http } from '@angular/http'
+import { Http, Headers, RequestOptions} from '@angular/http'
 
 /*
   Generated class for the BackendServiceProvider provider.
@@ -14,7 +14,6 @@ export class BackendServiceProvider {
   host = "http://localhost:8080" //"http://10.0.2.2:8080"
 
   constructor(private http: Http) {
-
   }
 
   loadRecipes() {
@@ -29,6 +28,28 @@ export class BackendServiceProvider {
     });
   }
 
+  sentOrder(ingredients, userId){
+    return new Promise((resolve, reject) => {
+      var headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json' );
+      let options = new RequestOptions({ headers: headers });
+
+      let postParams = {
+        title: 'foo',
+        body: 'bar',
+        userId: 1
+      }
+
+      this.http.post(this.host+'/orderdrinks', postParams, options)
+        .subscribe(data => {
+          resolve(data);
+          console.log(data['_body']);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
 
   loadRecipe(id: String) {
     return new Promise((resolve, reject) => {

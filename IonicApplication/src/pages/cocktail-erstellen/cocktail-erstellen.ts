@@ -220,6 +220,11 @@ export class CocktailErstellenPage {
     //Send Order to Backend
     this.readUserData().then(function (user) {
         console.log(user["token"]);
+        that.backendservice.sentOrder(that.cocktail,user["token"]).then( function (requestAnswer) {
+          console.log(requestAnswer);
+          }
+
+        );
       }
       , function (error) {
         console.log("Couldn't read user-Token")
