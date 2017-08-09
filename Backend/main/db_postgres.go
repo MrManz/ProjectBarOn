@@ -64,7 +64,7 @@ func (postgres *db_postgres) getAmount(id string) int  {
 
 func (postgres *db_postgres) getBottles(path string) []Bottle  {
 	if(postgres.bottles == nil){
-		rows, err := postgres.db.Query("SELECT id, name, priceperliter FROM bottles")
+		rows, err := postgres.db.Query("SELECT id, name, priceperliter, pathtopicture, pin FROM bottles")
 		if err != nil {
 			panic(err)
 			os.Exit(1)
@@ -75,7 +75,8 @@ func (postgres *db_postgres) getBottles(path string) []Bottle  {
 			var name string
 			var priceperliter int
 			var pathtopicture string
-			err = rows.Scan(&id, &name, &priceperliter, &pathtopicture)
+			var pin string
+			err = rows.Scan(&id, &name, &priceperliter, &pathtopicture, &pin)
 			if err != nil {
 				panic(err)
 				os.Exit(1)
@@ -83,7 +84,8 @@ func (postgres *db_postgres) getBottles(path string) []Bottle  {
 			bottle:=Bottle{ Id:id,
 				Name:name,
 				PricePerLiter:priceperliter,
-				PathToPicture:pathtopicture}
+				PathToPicture:pathtopicture,
+				Pin:pin}
 			bottles = append(bottles, bottle)
 		}
 		postgres.bottles = bottles

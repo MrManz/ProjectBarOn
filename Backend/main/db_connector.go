@@ -13,6 +13,7 @@ type Bottle struct {
 	Name string
 	PricePerLiter int
 	PathToPicture string
+	Pin string
 }
 
 type Recipe struct {
