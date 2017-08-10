@@ -11,7 +11,7 @@ import { Http, Headers, RequestOptions} from '@angular/http'
 @Injectable()
 export class BackendServiceProvider {
   data;
-  host = "http://10.0.2.2:8080" //"http://localhost:8080"
+  host = "http://localhost:8080" // "http://10.0.2.2:8080"
 
   constructor(private http: Http) {
   }
@@ -75,4 +75,8 @@ export class BackendServiceProvider {
 
     });
   }
+  likeRecipe(Recipe, userToken){
+
+  }
+
 }

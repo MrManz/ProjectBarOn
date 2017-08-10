@@ -249,11 +249,11 @@ export class CocktailErstellenPage {
   readUserData() {
     return new Promise(
       (resolve, reject) => {
-        var bottles;
+        var user;
         NativeStorage.getItem('user')
           .then(function (data) {
-            bottles = data
-            resolve(bottles)
+            user = data
+            resolve(user)
           }, function (error) {
             reject(error);
           });
