@@ -30,7 +30,7 @@ func main() {
 	db_factory :=Create_db_connector_factory()
 	db_con:=db_factory.make(properties["database"])
 	orderHander:=CreateOrderHandler(db_con)
-	http.Handle("/order", c.Handler(orderHander))
+	http.Handle("/order", c.Handler(authMiddleware(orderHander)))
 	amountHandler:=CreateGetAmountHandler(db_con)
 	http.Handle("/getamount", c.Handler(authMiddleware(amountHandler)))
 	bottlesHandler:=CreateBottlesHandler(db_con)
