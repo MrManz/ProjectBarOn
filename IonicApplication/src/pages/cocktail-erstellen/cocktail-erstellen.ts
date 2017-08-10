@@ -234,7 +234,10 @@ export class CocktailErstellenPage {
               );
             }
           }
-        );
+        ),function (error) {
+          console.log(error);
+
+        };
       }
       , function (error) {
         console.log("Couldn't read user-Token")
