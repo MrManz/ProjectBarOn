@@ -3,8 +3,10 @@ import {NativeStorage} from 'ionic-native';
 import {NavParams, AlertController, Platform, ModalController} from 'ionic-angular';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {SocialSharing} from '@ionic-native/social-sharing';
+import {Toast} from '@ionic-native/toast';
 
 var that;
+
 @Component({
   selector: 'page-cocktail-erstellen',
   templateUrl: 'cocktail-erstellen.html'
@@ -24,7 +26,8 @@ export class CocktailErstellenPage {
               private alertCtrl: AlertController,
               private platform: Platform,
               private zone: NgZone,
-              private modal: ModalController) {
+              private modal: ModalController,
+              private toast: Toast) {
     that = this
     this.readBottlesData().then(function (bottles) {
         if (that.params.data.RecipeID && that.params.data.RecipeName) {
@@ -48,6 +51,7 @@ export class CocktailErstellenPage {
       }
     );
   }
+
   share() {
     if (this.platform.is('core') || this.platform.is('mobileweb')) {
       let alert = this.alertCtrl.create({
@@ -219,11 +223,17 @@ export class CocktailErstellenPage {
   SubmitOrder() {
     //Send Order to Backend
     this.readUserData().then(function (user) {
-        console.log(user["token"]);
-        that.backendservice.sentOrder(that.cocktail,user["token"]).then( function (requestAnswer) {
-          console.log(requestAnswer);
+        that.backendservice.sentOrder(that.cocktail, user["token"]).then(function (requestAnswer) {
+            if (that.platform.is('core') || that.platform.is('mobileweb')) {
+              alert(requestAnswer['_body']);
+            } else {
+              that.toast.show(requestAnswer['_body'], '5000', 'center').subscribe(
+                toast => {
+                  console.log(toast);
+                }
+              );
+            }
           }
-
         );
       }
       , function (error) {

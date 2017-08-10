@@ -11,7 +11,7 @@ import { Http, Headers, RequestOptions} from '@angular/http'
 @Injectable()
 export class BackendServiceProvider {
   data;
-  host = "http://localhost:8080" //"http://10.0.2.2:8080"
+  host = "http://10.0.2.2:8080" //"http://localhost:8080"
 
   constructor(private http: Http) {
   }
@@ -28,23 +28,23 @@ export class BackendServiceProvider {
     });
   }
 
-  sentOrder(ingredients, userId){
+  sentOrder(ingredients, userToken){
+    ingredients.forEach(function (entry) {
+      delete entry.Name
+      delete entry.PathToPicture
+    })
     return new Promise((resolve, reject) => {
       var headers = new Headers();
-      headers.append("Accept", 'application/json');
-      headers.append('Content-Type', 'application/json' );
+      headers.append("Authorization", userToken);
       let options = new RequestOptions({ headers: headers });
 
       let postParams = {
-        title: 'foo',
-        body: 'bar',
-        userId: 1
+        "": ingredients
       }
 
-      this.http.post(this.host+'/orderdrinks', postParams, options)
+      this.http.post(this.host+'/order', ingredients, options)
         .subscribe(data => {
           resolve(data);
-          console.log(data['_body']);
         }, error => {
           reject(error);
         });
