@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { Http } from '@angular/http'
+import { Http, Headers, RequestOptions} from '@angular/http'
 
 /*
   Generated class for the BackendServiceProvider provider.
@@ -11,10 +11,9 @@ import { Http } from '@angular/http'
 @Injectable()
 export class BackendServiceProvider {
   data;
-  host = "http://localhost:8080" //"http://10.0.2.2:8080"
+  host = "http://localhost:8080" // "http://10.0.2.2:8080"
 
   constructor(private http: Http) {
-
   }
 
   loadRecipes() {
@@ -29,6 +28,28 @@ export class BackendServiceProvider {
     });
   }
 
+  sentOrder(ingredients, userToken){
+    ingredients.forEach(function (entry) {
+      delete entry.Name
+      delete entry.PathToPicture
+    })
+    return new Promise((resolve, reject) => {
+      var headers = new Headers();
+      headers.append("Authorization", userToken);
+      let options = new RequestOptions({ headers: headers });
+
+      let postParams = {
+        "": ingredients
+      }
+
+      this.http.post(this.host+'/order', ingredients, options)
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
 
   loadRecipe(id: String) {
     return new Promise((resolve, reject) => {
@@ -54,4 +75,8 @@ export class BackendServiceProvider {
 
     });
   }
+  likeRecipe(Recipe, userToken){
+
+  }
+
 }
