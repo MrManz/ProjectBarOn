@@ -42,7 +42,7 @@ func main() {
 	directory := flag.String("d", ".", "the directory of static file to host")
 	flag.Parse()
 	fs := http.FileServer(http.Dir(*directory))
-	fmt.Println(directory)
 	http.Handle("/", c.Handler(fs))
+	fmt.Println("BarOn is up and running :)")
 	http.ListenAndServe(":8080", nil)
 }

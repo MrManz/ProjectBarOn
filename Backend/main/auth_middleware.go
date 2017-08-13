@@ -15,6 +15,7 @@ func authMiddleware(next AuthHandler) http.Handler {
 			token_data := make(map[string]string)
 			//Hier können mock Daten in den Header geschrieben werden
 			token_data["sub"]=properties["mockSub"]
+			token_data["name"]=properties["mockName"]
 			//Alle Daten übergeben
 			next.setTokenData(token_data)
 			//Handler aufrufen
