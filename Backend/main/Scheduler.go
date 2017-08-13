@@ -33,6 +33,8 @@ func main() {
 	http.Handle("/order", c.Handler(authMiddleware(orderHander)))
 	amountHandler:=CreateGetAmountHandler(db_con)
 	http.Handle("/getamount", c.Handler(authMiddleware(amountHandler)))
+	likeHandler:=CreateLikeHandler(db_con)
+	http.Handle("/likeCocktail", c.Handler(authMiddleware(likeHandler)))
 	bottlesHandler:=CreateBottlesHandler(db_con)
 	http.Handle("/getbottles", c.Handler(bottlesHandler))
 	recipesHandler:=CreateRecipesHandler(db_con)

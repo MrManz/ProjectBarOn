@@ -12,7 +12,6 @@ type db_postgres struct {
 	amt int
 	db *sql.DB
 	bottles []Bottle
-	recipes []Recipe
 }
 
 func createPostgresDB() *db_postgres {
@@ -100,8 +99,7 @@ func (postgres *db_postgres) getBottles(path string) []Bottle  {
 }
 
 func (postgres *db_postgres) getRecipes() []Recipe  {
-	if(postgres.recipes==nil){
-		rows, err := postgres.db.Query("SELECT id, name FROM recipes")
+		rows, err := postgres.db.Query("SELECT public.recipes.id, public.recipes.name, count(public.recipes.id) AS nummer FROM public.recipes INNER JOIN public.like ON public.recipes.id = public.like.idrecipe GROUP BY public.recipes.id ORDER BY nummer DESC")
 		if err != nil {
 			panic(err)
 			os.Exit(1)
@@ -110,17 +108,16 @@ func (postgres *db_postgres) getRecipes() []Recipe  {
 		for rows.Next() {
 			var recipeId int
 			var name string
-			err = rows.Scan(&recipeId, &name)
+			var likes int
+			err = rows.Scan(&recipeId, &name, &likes)
 			if err != nil {
 				panic(err)
 				os.Exit(1)
 			}
-			recipe:=Recipe{Name:name, Id:recipeId}
+			recipe:=Recipe{Name:name, Id:recipeId, Likes:likes}
 			recipes = append(recipes, recipe)
 		}
-		postgres.recipes = recipes
-	}
-	return postgres.recipes
+	return recipes
 }
 
 func (postgres *db_postgres) getIngredients(id int) []Ingredient  {
@@ -141,4 +138,21 @@ func (postgres *db_postgres) getIngredients(id int) []Ingredient  {
 		ingredients = append(ingredients, ingredient)
 	}
 	return ingredients
+}
+
+func (postgres *db_postgres) likeCocktail(idUser string, idRecipe int){
+	var flag int = 0
+	querycheck:="SELECT * FROM public.like WHERE iduser = '"+idUser+"' AND idrecipe ="+strconv.Itoa(idRecipe)
+	rows, err := postgres.db.Query(querycheck)
+	if err != nil {
+		panic(err)
+		os.Exit(1)
+	}
+	if(rows.Next()){
+		flag=1
+	}
+	if(flag==0){
+		queryupdate:="INSERT INTO public.like (iduser, idrecipe) VALUES ('"+idUser+"', "+strconv.Itoa(idRecipe)+")"
+		postgres.db.QueryRow(queryupdate)
+	}
 }

@@ -6,6 +6,7 @@ type db_connector interface {
 	getBottles(path string) []Bottle
 	getRecipes() []Recipe
 	getIngredients(id int) []Ingredient
+	likeCocktail(idUser string, idRecipe int)
 }
 
 type Bottle struct {
@@ -19,6 +20,7 @@ type Bottle struct {
 type Recipe struct {
 	Name string
 	Id int
+	Likes int
 }
 
 type Ingredient struct {

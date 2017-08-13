@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"time"
+	"strconv"
 )
 
 type OrderHandler struct {
@@ -16,7 +17,8 @@ type OrderHandler struct {
 }
 
 func CreateOrderHandler(db_con db_connector) *OrderHandler {
-	return &OrderHandler{db:db_con, busy:false, millisecondOneMilliliterNeeds:60}
+	derWertDerAllesEntscheidetUndWahrscheinlichNieFunktionierenWird,_:=strconv.Atoi(properties["millisecondOneMilliliterNeeds"])
+	return &OrderHandler{db:db_con, busy:false, millisecondOneMilliliterNeeds:derWertDerAllesEntscheidetUndWahrscheinlichNieFunktionierenWird}
 }
 
 func (orderHandler *OrderHandler)ServeHTTP(w http.ResponseWriter, r *http.Request)  {
