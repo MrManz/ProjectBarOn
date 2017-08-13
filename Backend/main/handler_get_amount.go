@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 	"fmt"
-	"strconv"
+	"encoding/json"
 )
 
 type get_amount_handler struct {
@@ -16,5 +16,6 @@ func CreateGetAmountHandler(db_con db_connector) *get_amount_handler{
 }
 
 func (amount_handler *get_amount_handler)ServeHTTP(w http.ResponseWriter, r *http.Request)  {
-	fmt.Fprintf(w, strconv.Itoa(amount_handler.db.getAmount(amount_handler.token_data["sub"])))
+	jsonData,_:=json.Marshal(amount_handler.db.getAmount(amount_handler.token_data["sub"]))
+	fmt.Fprintf(w, string(jsonData))
 }

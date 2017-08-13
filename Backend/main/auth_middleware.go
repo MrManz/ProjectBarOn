@@ -9,6 +9,18 @@ import (
 //Middleware dient zur Überprüfung des Authorization Headers
 //Damit ein Request durch die Middleware kommt, muss der Authorization Header den Token von Google Sign In enthalten
 func authMiddleware(next AuthHandler) http.Handler {
+	//Für die Entwicklung, wenn man nicht ständig einen gültigen Token ziehen will
+	if(properties["mockAuth"]=="true"){
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			token_data := make(map[string]string)
+			//Hier können mock Daten in den Header geschrieben werden
+			token_data["sub"]=properties["mockSub"]
+			//Alle Daten übergeben
+			next.setTokenData(token_data)
+			//Handler aufrufen
+			next.ServeHTTP(w, r)
+		});
+	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		//get Header
 		token:=r.Header.Get("Authorization")

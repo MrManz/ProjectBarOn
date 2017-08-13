@@ -5,7 +5,6 @@ import (
 	_ "github.com/lib/pq"
 	"os"
 	"strconv"
-	"log"
 )
 
 type db_postgres struct {
@@ -26,10 +25,10 @@ func createPostgresDB() *db_postgres {
 	return &db_pg
 }
 
-func (postgres *db_postgres)addToBill(id string, amount int)  {
+func (postgres *db_postgres)addToBill(idUser string,idBottle int, amount int)  {
 	var flag int
 	var finalamount int
-	querycheck:="select * from public.account where id='"+id+"'"
+	querycheck:="select * from public.account where iduser='"+idUser+"' AND idbottle="+strconv.Itoa(idBottle)
 	rows, err := postgres.db.Query(querycheck)
 	if err != nil {
 		panic(err)
@@ -39,27 +38,34 @@ func (postgres *db_postgres)addToBill(id string, amount int)  {
 		flag=1
 	}
 	if(flag==1){
-		amountsofar:=postgres.getAmount(id)
-		finalamount=amountsofar+amount
-		queryupdate:="UPDATE public.account SET amount="+strconv.Itoa(finalamount)+" WHERE id='"+id+"'"
+		amountsofar:=postgres.getAmount(idUser)
+		finalamount=amountsofar[idBottle]+amount
+		queryupdate:="UPDATE public.account SET amount="+strconv.Itoa(finalamount)+" WHERE iduser='"+idUser+"' AND idbottle="+strconv.Itoa(idBottle)
 		postgres.db.QueryRow(queryupdate)
 	}else{
 		finalamount = amount
-		queryinsert:="INSERT INTO public.account (id, amount) VALUES ('"+id+"', "+strconv.Itoa(finalamount)+")"
+		queryinsert:="INSERT INTO public.account (iduser, idbottle, amount) VALUES ('"+idUser+"', "+strconv.Itoa(idBottle)+", "+strconv.Itoa(finalamount)+")"
 		postgres.db.QueryRow(queryinsert)
 	}
 }
 
-func (postgres *db_postgres) getAmount(id string) int  {
-	var amount int = 0
-	err := postgres.db.QueryRow("SELECT amount FROM account WHERE id='"+id+"'").Scan(&amount)
-	if err == sql.ErrNoRows {
-		log.Fatal("No Results Found")
-	}
+func (postgres *db_postgres) getAmount(id string) ConsumedLiquid  {
+	rows, err := postgres.db.Query("SELECT idbottle, amount FROM public.account WHERE idUser ='"+id+"'")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
+		os.Exit(1)
 	}
-	return amount
+	liquids:=make(map[int]int)
+	for rows.Next() {
+		var idBottle, amount int
+		err = rows.Scan(&idBottle, &amount)
+		if err != nil {
+			panic(err)
+			os.Exit(1)
+		}
+		liquids[idBottle]=amount
+	}
+	return liquids
 }
 
 func (postgres *db_postgres) getBottles(path string) []Bottle  {
@@ -84,7 +90,7 @@ func (postgres *db_postgres) getBottles(path string) []Bottle  {
 			bottle:=Bottle{ Id:id,
 				Name:name,
 				PricePerLiter:priceperliter,
-				PathToPicture:pathtopicture,
+				PathToPicture:"http://"+path+pathtopicture,
 				Pin:pin}
 			bottles = append(bottles, bottle)
 		}

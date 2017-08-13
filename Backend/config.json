@@ -1,7 +1,10 @@
 {
   "aud":"920043719912-b9pam9s4ak2g3f3elv421hk5d2jqhmjg.apps.googleusercontent.com",
-  "database":"mock",
+  "database":"postgres",
   "db_user":"user01",
   "db_name":"baron",
-  "db_password":"Taombykvhbjxjxu5"
+  "db_password":"Taombykvhbjxjxu5",
+  "mockAuth":"true",
+  "mockSub":"002",
+  "baronIP":"192.168.137.105"
 }
