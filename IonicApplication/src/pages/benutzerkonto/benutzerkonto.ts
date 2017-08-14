@@ -6,6 +6,7 @@ import {GoogleService} from '../../providers/google-service/google.service';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 //import $ from "jquery";
 var that;
+
 @Component({
   selector: 'page-benutzerkonto',
   templateUrl: 'benutzerkonto.html'
@@ -22,7 +23,7 @@ export class BenutzerkontoPage {
   constructor(public modalCtrl: ModalController,
               private googleService: GoogleService,
               private backendservice: BackendServiceProvider,
-              private alertCtl: AlertController ) {
+              private alertCtl: AlertController) {
     that = this;
     this.readUserData().then(function (user) {
         that.user = user;
@@ -32,10 +33,6 @@ export class BenutzerkontoPage {
         that.openLoginModal()
       }
     );
-  }
-
-  //Remove when unused
-  ngAfterViewInit() {
   }
 
   logout(params) {
@@ -51,7 +48,7 @@ export class BenutzerkontoPage {
           }
         },
         {
-          text:'Ja',
+          text: 'Ja',
           handler: () => {
             that.doLogout()
           }
@@ -60,7 +57,8 @@ export class BenutzerkontoPage {
     alert.present();
   }
 
-  doLogout(){
+  //ausloggen des Nutzers aus der App
+  doLogout() {
     NativeStorage.remove('user');
     this.openLoginModal();
     this.user = {
@@ -72,6 +70,7 @@ export class BenutzerkontoPage {
     this.googleService.googleSignOut();
   }
 
+  //Modaler Bildschrim zum einloggen mit dem Google-Konto
   openLoginModal() {
     let loginModal = this.modalCtrl.create(LoginModalPage, {
       showBackdrop: false,
@@ -90,6 +89,7 @@ export class BenutzerkontoPage {
     loginModal.present();
   }
 
+  //Nutzerdaten aus dem NativeStorage auslesen
   readUserData() {
     return new Promise(
       (resolve, reject) => {
@@ -110,6 +110,7 @@ export class BenutzerkontoPage {
     )
   }
 
+  //die zur verfügung stehenden Getränkezutaten aus dem Backend laden und im NativeStorage sichern
   loadBottles() {
     this.backendservice.loadBottles().then(function (result) {
       NativeStorage.setItem('bottles', result);

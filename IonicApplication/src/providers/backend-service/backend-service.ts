@@ -37,11 +37,6 @@ export class BackendServiceProvider {
       var headers = new Headers();
       headers.append("Authorization", userToken);
       let options = new RequestOptions({ headers: headers });
-
-      let postParams = {
-        "": ingredients
-      }
-
       this.http.post(this.host+'/order', ingredients, options)
         .subscribe(data => {
           resolve(data);
@@ -75,7 +70,34 @@ export class BackendServiceProvider {
 
     });
   }
-  likeRecipe(Recipe, userToken){
+
+  loadOrderedDrinks(userToken) {
+    return new Promise((resolve, reject) => {
+      var headers = new Headers();
+      headers.append("Authorization", userToken);
+      let options = new RequestOptions({ headers: headers });
+
+      this.http.post(this.host+'/getamount', options)
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  likeRecipe(RecipeID, userToken){
+    return new Promise((resolve, reject) => {
+      var headers = new Headers();
+      headers.append("Authorization", userToken);
+      let options = new RequestOptions({ headers: headers });
+      this.http.get(this.host+"/likeCocktail?id="+ RecipeID, options)
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
 
   }
 

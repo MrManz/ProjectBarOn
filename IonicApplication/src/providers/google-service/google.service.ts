@@ -5,6 +5,10 @@ import { Events, AlertController  } from 'ionic-angular';
 import { GooglePlus } from '@ionic-native/google-plus';
 var that: GoogleService;
 
+/*
+  ServiceProvider-Class zur Interaktion mit den Google-APIs
+*/
+
 @Injectable()
 export class GoogleService {
 isApp: boolean;

@@ -17,7 +17,6 @@ import { Push } from '@ionic-native/push';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { OneSignal } from '@ionic-native/onesignal';
-import { Toast } from '@ionic-native/toast';
 
 @NgModule({
   declarations: [
@@ -53,8 +52,7 @@ import { Toast } from '@ionic-native/toast';
     Push,
     GooglePlus,
     OneSignal,
-    SocialSharing,
-    Toast
+    SocialSharing
   ]
 })
 export class AppModule {}

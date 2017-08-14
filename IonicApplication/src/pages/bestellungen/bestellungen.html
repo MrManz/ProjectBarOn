@@ -7,17 +7,16 @@
 </ion-header>
 <ion-content class="no-scroll" padding style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page4">
   <ion-list id="bestellungen-list6">
-    <ion-item color="dark" id="bestellungen-list-item33">
-      Item 1
-      <ion-note item-right></ion-note>
-    </ion-item>
-    <ion-item color="none" id="bestellungen-list-item35">
-      Item 3
-      <ion-note item-right></ion-note>
+    <ion-item *ngFor="let order of orders" color="none" id="bestellungen-list-item14">
+      <ion-avatar item-left>
+        <img class="drinkpicture" src="{{order.PathToPicture}}">
+      </ion-avatar>
+      <h2>{{order.Name}}</h2>
+      <h3>{{order.Volume}} ml</h3>
     </ion-item>
   </ion-list>
-  <button id="bestellungen-button6" ion-button color="positive" block icon-left>
+  <!--<button id="bestellungen-button6" ion-button color="positive" block icon-left>
     <ion-icon name="euro"></ion-icon>
     Bezahlen
-  </button>
+  </button>-->
 </ion-content>

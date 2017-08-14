@@ -8,18 +8,18 @@
 <ion-content class="no-scroll" padding
              style="background:url(assets/img/bar.jpg) no-repeat center;background-size:cover;" id="page6">
   <ion-list id="rezeptAuswHlen-list3">
-    <ion-item-sliding #item>
-      <ion-item *ngFor="let drinks of recipes" color="none" (click)=goToCocktailErstellenPage(drinks) id="rezeptAuswHlen-list-item14">
+    <ion-item-sliding  *ngFor="let drinks of recipes" #slidingItem>
+      <ion-item (click)=goToCocktailErstellenPage(drinks)>
         <ion-avatar item-left>
-          <img src="{{drinks.picture}}">
+          <img src="{{drinks.PathToPicture}}">
         </ion-avatar>
         {{drinks.Name}}
         <ion-icon name="arrow-forward" item-right></ion-icon>
       </ion-item>
-      <ion-item-options side="right">
-        <button ion-button expandable  color="secondary" (click)="like(item)">
-          <ion-icon name="thumbs-up"></ion-icon>
-          Like
+      <ion-item-options (ionSwipe)=like(drinks.Id,slidingItem) side="right">
+        <button ion-button expandable color="secondary" (click)=like(drinks.Id,slidingItem)>
+          <ion-icon class="expand-hide" name="thumbs-up"></ion-icon>
+          <div class="expand-hide">Like</div>
         </button>
       </ion-item-options>
     </ion-item-sliding>
