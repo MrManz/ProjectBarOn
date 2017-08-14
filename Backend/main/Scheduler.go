@@ -33,6 +33,8 @@ func main() {
 	http.Handle("/order", c.Handler(authMiddleware(orderHander)))
 	amountHandler:=CreateGetAmountHandler(db_con)
 	http.Handle("/getamount", c.Handler(authMiddleware(amountHandler)))
+	likeHandler:=CreateLikeHandler(db_con)
+	http.Handle("/likeCocktail", c.Handler(authMiddleware(likeHandler)))
 	bottlesHandler:=CreateBottlesHandler(db_con)
 	http.Handle("/getbottles", c.Handler(bottlesHandler))
 	recipesHandler:=CreateRecipesHandler(db_con)
@@ -40,7 +42,7 @@ func main() {
 	directory := flag.String("d", ".", "the directory of static file to host")
 	flag.Parse()
 	fs := http.FileServer(http.Dir(*directory))
-	fmt.Println(directory)
 	http.Handle("/", c.Handler(fs))
+	fmt.Println("BarOn is up and running :)")
 	http.ListenAndServe(":8080", nil)
 }

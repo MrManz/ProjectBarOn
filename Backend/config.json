@@ -3,5 +3,14 @@
   "database":"mock",
   "db_user":"user01",
   "db_name":"baron",
-  "db_password":"Taombykvhbjxjxu5"
+  "db_password":"Taombykvhbjxjxu5",
+  "mockAuth":"true",
+  "mockSub":"007",
+  "mockName":"James Bond",
+  "hardware":"true",
+  "baronIP":"192.168.137.105",
+  "millisecondOneMilliliterNeeds":"45",
+  "sigAppKey":"YjYwNTU3OGItYTZjYi00YjYzLWEzOGMtMGNjYmMxYmE3NjVm",
+  "sigUserKey":"NGRiYTFlZTItMDg0MS00ZTJlLTgwNmQtOTU1NDk3Zjc4ZjE2",
+  "sigAppID":"d3d1b2a0-f47a-4136-8838-7ffa7d9a6a30"
 }
