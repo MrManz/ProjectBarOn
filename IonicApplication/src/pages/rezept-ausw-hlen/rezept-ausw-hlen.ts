@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, Platform, ToastController} from 'ionic-angular';
+import {NavController, Platform, ToastController, ItemSliding} from 'ionic-angular';
 import {CocktailErstellenPage} from '../cocktail-erstellen/cocktail-erstellen'
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {NativeStorage} from 'ionic-native';
@@ -26,9 +26,10 @@ export class RezeptAuswHlenPage {
   }
 
   //Methode zum liken eines bestimmten Rezeptes
-  like(item) {
+  like(item, sliderItem : ItemSliding ) {
     this.readUserData().then(function (user) {
-        that.backendservice.likeRecipe(item.item.id, user["token"]).then(function (requestAnswer) {
+        that.backendservice.likeRecipe(item, user["token"]).then(function (requestAnswer) {
+          sliderItem.close();
           let toast = that.toastCtrl.create({
             message: requestAnswer['_body'],
             duration: 3000,
