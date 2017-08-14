@@ -73,7 +73,9 @@ GoogleAuth: any;
       this.googlePlus.logout();
       console.log(this.isApp);
     } else {
-      this.GoogleAuth.signOut();
+      if(this.GoogleAuth) {
+         this.GoogleAuth.signOut();
+      }
     }
   }
 }
