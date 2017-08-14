@@ -202,7 +202,6 @@ export class CocktailErstellenPage {
   }
   //verändern der Menge je nachdem wie das Gerät gekippt wurde
   deviceOrientationChanged(event) {
-    var absolute = event.absolute;
     var beta = event.beta;
     if (Math.abs(that.Degree - beta) > 10) {
       that.Degree = beta;
