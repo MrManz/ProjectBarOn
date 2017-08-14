@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController,Platform} from 'ionic-angular';
+import {NavController, Platform} from 'ionic-angular';
 import {CocktailErstellenPage} from '../cocktail-erstellen/cocktail-erstellen'
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {NativeStorage} from 'ionic-native';
-import {Toast} from "@ionic-native/toast";
 
 var that;
 
@@ -15,7 +14,7 @@ export class RezeptAuswHlenPage {
   recipes;
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  constructor(public navCtrl: NavController, private backendservice: BackendServiceProvider,private platform: Platform,private toast: Toast) {
+  constructor(public navCtrl: NavController, private backendservice: BackendServiceProvider, private platform: Platform) {
     that = this;
     backendservice.loadRecipes().then(function (result) {
       that.recipes = result;
@@ -26,21 +25,25 @@ export class RezeptAuswHlenPage {
     this.navCtrl.push(CocktailErstellenPage, {RecipeID: params.Id, RecipeName: params.Name})
   }
 
+  //Methode zum liken eines bestimmten Rezeptes
   like(item) {
     this.readUserData().then(function (user) {
-        that.backendservice.likeRecipe(item.item.id,user["token"]).then(function (requestAnswer) {
-          if (that.platform.is('core') || that.platform.is('mobileweb')) {
-            alert(requestAnswer['_body']);
-          } else {
-            that.toast.show(requestAnswer['_body'], '5000', 'center').subscribe(
-              toast => {
-                console.log(toast);
-              }
-            );
-          }
+        that.backendservice.likeRecipe(item.item.id, user["token"]).then(function (requestAnswer) {
+          let toast = that.toastCtrl.create({
+            message: requestAnswer['_body'],
+            duration: 3000,
+            showCloseButton: true,
+            closeButtonText: "OK"
+          });
+
+          toast.onDidDismiss(() => {
+            that.navCtrl.push(RezeptAuswHlenPage)
+          });
+
+          toast.present();
         }),
           function (error) {
-          console.log(error);
+            console.log(error);
           }
       }
     ),
@@ -49,6 +52,8 @@ export class RezeptAuswHlenPage {
         console.log(error);
       }
   }
+
+  //Auslesen der Nutzerdaten aus dem NativeStorage
   readUserData() {
     return new Promise(
       (resolve, reject) => {

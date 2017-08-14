@@ -16,12 +16,8 @@ export class LoginModalPage {
       this.vController.dismiss();
     });
   }
-
+  //den ServiceProvider aufrufen um den Login zu starten
   startGoogleSignIn() {
     this.googleService.googleSignIn();
-  }
-
-  ionViewDidLoad() {
-    //console.log('ionViewDidLoad SampleModalPage');
   }
 }

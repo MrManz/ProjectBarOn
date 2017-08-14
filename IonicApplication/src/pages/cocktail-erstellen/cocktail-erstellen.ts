@@ -1,10 +1,9 @@
 import {Component, NgZone} from '@angular/core';
 import {NativeStorage} from 'ionic-native';
-import {NavParams, AlertController, Platform, ModalController} from 'ionic-angular';
+import {NavParams, AlertController, Platform, ModalController, ToastController, NavController} from 'ionic-angular';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {SocialSharing} from '@ionic-native/social-sharing';
-import {Toast} from '@ionic-native/toast';
-
+import { RezeptAuswHlenPage } from '../rezept-ausw-hlen/rezept-ausw-hlen';
 var that;
 
 @Component({
@@ -20,6 +19,9 @@ export class CocktailErstellenPage {
   private Degree = 90;
 
 
+
+  // Konstruktor der aus dem NativeStorage die zur Verfügung stehenden Getränke abruft und dann die Zutaten des zuvor ausgewählten
+  // Rezeptes anzuzeigen oder einen leeren Mischbildschirm anzuzeigen
   constructor(private backendservice: BackendServiceProvider,
               private params: NavParams,
               private socialSharing: SocialSharing,
@@ -27,7 +29,8 @@ export class CocktailErstellenPage {
               private platform: Platform,
               private zone: NgZone,
               private modal: ModalController,
-              private toast: Toast) {
+              private toastCtrl: ToastController,
+              private navCtrl: NavController) {
     that = this
     this.readBottlesData().then(function (bottles) {
         if (that.params.data.RecipeID && that.params.data.RecipeName) {
@@ -51,7 +54,7 @@ export class CocktailErstellenPage {
       }
     );
   }
-
+  // Natives Teilen wenn möglich, ansonsten wird eine E-Mail versendet.
   share() {
     if (this.platform.is('core') || this.platform.is('mobileweb')) {
       let alert = this.alertCtrl.create({
@@ -77,21 +80,18 @@ export class CocktailErstellenPage {
     } else {
       this.socialSharing.shareWithOptions({
         message: 'Teile deine Cocktail', // not supported on some apps (Facebook, Instagram)
-        subject: 'Teste den BarOn und meinen Cocktail', // fi. for email
-        files: ['', ''], // an array of filenames either locally or remotely
-        // url: 'https://www.website.com/foo/#bar?a=b',
-        chooserTitle: 'Share your Cocktail' // Android only, you can override the default share sheet title
+        subject: 'Teste den BarOn und meinen Cocktail',
+        files: ['', ''], // an array of filenames
+        chooserTitle: 'Share your Cocktail'
       }).then((result) => {
-        // Success!
-        console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
-        console.log("Shared to app: " + result.app); // On Android result.app is currently empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+        console.log("Share completed? " + result.completed);
+        console.log("Shared to app: " + result.app);
       }).catch((msg) => {
         console.log("Sharing failed with message: " + msg);
-        // Error!
       });
     }
   }
-
+  //Ueberwachung, dass immer höchstens this.maximum als Summe aller Getränkezutaten erreicht ist
   changeRangeSlider(Id) {
     this.name = "Mix your own Drink"
     let currentTotalAmount = 0;
@@ -111,7 +111,7 @@ export class CocktailErstellenPage {
       //Callback of Object.forEach breaks NgZone -> so run Ng.zone() to update UI
     });
   }
-
+  //auslesen der angeschlossenen Getränke am BarOn aus dem NativeStorage
   readBottlesData() {
     return new Promise(
       (resolve, reject) => {
@@ -130,7 +130,7 @@ export class CocktailErstellenPage {
   hasValue(obj, key, value) {
     return obj.hasOwnProperty(key) && obj[key] === value;
   }
-
+  //Die Getränkeauswahl des Mischbildschrims ändern(hinzufügen und entfernen von Zutaten)
   addIngredient() {
     this.readBottlesData().then(function (bottles) {
         let alert = that.alertCtrl.create();
@@ -189,7 +189,7 @@ export class CocktailErstellenPage {
       }
     );
   }
-
+  //Eventlistener nach dem Klick auf eine Zutat hinzufügen oder entfernen
   MixWithOrientationClick(id) {
     if (!(this.eventSet)) {
       window.addEventListener("deviceorientation", this.deviceOrientationChanged)
@@ -200,7 +200,7 @@ export class CocktailErstellenPage {
       that.eventSet = false;
     }
   }
-
+  //verändern der Menge je nachdem wie das Gerät gekippt wurde
   deviceOrientationChanged(event) {
     var absolute = event.absolute;
     var beta = event.beta;
@@ -219,22 +219,25 @@ export class CocktailErstellenPage {
     }
     that.changeRangeSlider(that.ItemClickedId)
   }
-
+  //aktuelle Zutatenliste zum Backend senden
   SubmitOrder() {
     //Send Order to Backend
     this.readUserData().then(function (user) {
         that.backendservice.sentOrder(that.cocktail, user["token"]).then(function (requestAnswer) {
-            if (that.platform.is('core') || that.platform.is('mobileweb')) {
-              alert(requestAnswer['_body']);
-            } else {
-              that.toast.show(requestAnswer['_body'], '5000', 'center').subscribe(
-                toast => {
-                  console.log(toast);
-                }
-              );
-            }
+            let toast = that.toastCtrl.create({
+              message: requestAnswer['_body'],
+              duration: 3000,
+              showCloseButton: true,
+              closeButtonText: "OK"
+            });
+
+            toast.onDidDismiss(() => {
+              that.navCtrl.push(RezeptAuswHlenPage)
+            });
+
+            toast.present();
           }
-        ),function (error) {
+        ), function (error) {
           console.log(error);
 
         };
@@ -245,7 +248,7 @@ export class CocktailErstellenPage {
       }
     );
   }
-
+  //Nutzerdaten aus dem NativeStorage lesen
   readUserData() {
     return new Promise(
       (resolve, reject) => {
@@ -260,7 +263,7 @@ export class CocktailErstellenPage {
       }
     )
   }
-
+  //Hilfe-Fenster mit Anleitung zum Mischen
   openInfoModal() {
     const infoModal = this.modal.create('InfoModalPage');
     infoModal.present();

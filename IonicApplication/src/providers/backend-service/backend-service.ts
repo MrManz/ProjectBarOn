@@ -3,10 +3,7 @@ import 'rxjs/add/operator/map';
 import { Http, Headers, RequestOptions} from '@angular/http'
 
 /*
-  Generated class for the BackendServiceProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
+  ServiceProvider-Class zur Interaktion mit den Backend-APIs
 */
 @Injectable()
 export class BackendServiceProvider {
