@@ -26,7 +26,6 @@ func createPostgresDB() *db_postgres {
 
 func (postgres *db_postgres)addToBill(idUser string,idBottle int, amount int)  {
 	var flag int
-	var finalamount int
 	querycheck:="select * from public.account where iduser='"+idUser+"' AND idbottle="+strconv.Itoa(idBottle)
 	rows, err := postgres.db.Query(querycheck)
 	if err != nil {
@@ -37,24 +36,29 @@ func (postgres *db_postgres)addToBill(idUser string,idBottle int, amount int)  {
 		flag=1
 	}
 	if(flag==1){
-		amountsofar:=postgres.getAmount(idUser)
-		finalamount=amountsofar[idBottle]+amount
+		accountsofar:=postgres.getAmount(idUser)
+		var finalamount int = 0
+		for _, cons := range accountsofar{
+			if cons.IdUser == idUser && cons.IdBottle == idBottle{
+				finalamount=finalamount+cons.Amount
+			}
+		}
+		finalamount = finalamount + amount
 		queryupdate:="UPDATE public.account SET amount="+strconv.Itoa(finalamount)+" WHERE iduser='"+idUser+"' AND idbottle="+strconv.Itoa(idBottle)
 		postgres.db.QueryRow(queryupdate)
 	}else{
-		finalamount = amount
-		queryinsert:="INSERT INTO public.account (iduser, idbottle, amount) VALUES ('"+idUser+"', "+strconv.Itoa(idBottle)+", "+strconv.Itoa(finalamount)+")"
+		queryinsert:="INSERT INTO public.account (iduser, idbottle, amount) VALUES ('"+idUser+"', "+strconv.Itoa(idBottle)+", "+strconv.Itoa(amount)+")"
 		postgres.db.QueryRow(queryinsert)
 	}
 }
 
-func (postgres *db_postgres) getAmount(id string) ConsumedLiquid  {
+func (postgres *db_postgres) getAmount(id string) []ConsumedAmount  {
 	rows, err := postgres.db.Query("SELECT idbottle, amount FROM public.account WHERE idUser ='"+id+"'")
 	if err != nil {
 		panic(err)
 		os.Exit(1)
 	}
-	liquids:=make(map[int]int)
+	consumedAmounts:=make([]ConsumedAmount,0)
 	for rows.Next() {
 		var idBottle, amount int
 		err = rows.Scan(&idBottle, &amount)
@@ -62,9 +66,9 @@ func (postgres *db_postgres) getAmount(id string) ConsumedLiquid  {
 			panic(err)
 			os.Exit(1)
 		}
-		liquids[idBottle]=amount
+		consumedAmounts=append(consumedAmounts, ConsumedAmount{IdBottle:idBottle, IdUser:id, Amount:amount})
 	}
-	return liquids
+	return consumedAmounts
 }
 
 func (postgres *db_postgres) getBottles(path string) []Bottle  {
@@ -98,8 +102,8 @@ func (postgres *db_postgres) getBottles(path string) []Bottle  {
 	return postgres.bottles
 }
 
-func (postgres *db_postgres) getRecipes() []Recipe  {
-		rows, err := postgres.db.Query("SELECT public.recipes.id, public.recipes.name, count(public.recipes.id) AS nummer FROM public.recipes INNER JOIN public.like ON public.recipes.id = public.like.idrecipe GROUP BY public.recipes.id ORDER BY nummer DESC")
+func (postgres *db_postgres) getRecipes(path string) []Recipe  {
+		rows, err := postgres.db.Query("SELECT public.recipes.id, public.recipes.pathtopicture , public.recipes.name, count(public.recipes.id) AS nummer FROM public.recipes INNER JOIN public.like ON public.recipes.id = public.like.idrecipe GROUP BY public.recipes.id ORDER BY nummer DESC")
 		if err != nil {
 			panic(err)
 			os.Exit(1)
@@ -109,12 +113,13 @@ func (postgres *db_postgres) getRecipes() []Recipe  {
 			var recipeId int
 			var name string
 			var likes int
-			err = rows.Scan(&recipeId, &name, &likes)
+			var pathtopicture string
+			err = rows.Scan(&recipeId,&pathtopicture, &name, &likes)
 			if err != nil {
 				panic(err)
 				os.Exit(1)
 			}
-			recipe:=Recipe{Name:name, Id:recipeId, Likes:likes}
+			recipe:=Recipe{Name:name, Id:recipeId, Likes:likes, PathToPicture:"http://"+path+pathtopicture}
 			recipes = append(recipes, recipe)
 		}
 	return recipes

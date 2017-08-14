@@ -18,7 +18,7 @@ func CreateRecipesHandler(db_con db_connector) *GetRecipesHandler {
 func (getRecipesHandler *GetRecipesHandler)ServeHTTP(w http.ResponseWriter, r *http.Request)  {
 	idarr:=r.URL.Query()["id"]
 	if(len(idarr) < 1){
-		recipes:=getRecipesHandler.db.getRecipes()
+		recipes:=getRecipesHandler.db.getRecipes(r.Host)
 		recipesJSON,_:=json.Marshal(recipes)
 		fmt.Fprintf(w, string(recipesJSON))
 	}else{

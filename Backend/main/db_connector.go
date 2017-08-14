@@ -2,9 +2,9 @@ package main
 
 type db_connector interface {
 	addToBill(idUser string,idBottle int, amount int)
-	getAmount(id string) ConsumedLiquid
+	getAmount(id string) []ConsumedAmount
 	getBottles(path string) []Bottle
-	getRecipes() []Recipe
+	getRecipes(path string) []Recipe
 	getIngredients(id int) []Ingredient
 	likeCocktail(idUser string, idRecipe int)
 }
@@ -21,6 +21,7 @@ type Recipe struct {
 	Name string
 	Id int
 	Likes int
+	PathToPicture string
 }
 
 type Ingredient struct {
@@ -28,4 +29,8 @@ type Ingredient struct {
 	Volume int
 }
 
-type ConsumedLiquid map[int]int
+type ConsumedAmount struct {
+	IdUser string
+	IdBottle int
+	Amount int
+}

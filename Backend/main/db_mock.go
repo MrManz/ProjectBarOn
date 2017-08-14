@@ -6,28 +6,38 @@ type userRecipePair struct {
 }
 
 type db_mock struct {
-	account map[string]ConsumedLiquid
+	account []ConsumedAmount
 	amt int
 	likes []userRecipePair
 }
 
 func (mock *db_mock)addToBill(idUser string,idBottle int, amount int)  {
 	if(mock.account==nil){
-		mock.account=make(map[string]ConsumedLiquid)
+		mock.account=make([]ConsumedAmount,0)
 	}
-	userAccount:=mock.account[idUser]
-	amountsofar:=userAccount[idBottle]
-	if(mock.account[idUser]==nil){
-		mock.account[idUser]=make(map[int]int)
+	var isSet bool = false
+	for index, cons := range mock.account{
+		if cons.IdUser == idUser && cons.IdBottle == idBottle{
+			mock.account[index].Amount=amount+mock.account[index].Amount
+			isSet=true
+		}
 	}
-	mock.account[idUser][idBottle] = amountsofar + amount
+	if !isSet {
+		mock.account = append(mock.account, ConsumedAmount{IdUser:idUser, IdBottle:idBottle, Amount:amount})
+	}
 }
 
-func (mock *db_mock) getAmount(id string) ConsumedLiquid  {
+func (mock *db_mock) getAmount(id string) []ConsumedAmount {
 	if(mock.account==nil){
-		mock.account=make(map[string]ConsumedLiquid)
+		mock.account=make([]ConsumedAmount,0)
 	}
-	return mock.account[id]
+	consumedAmount:=make([]ConsumedAmount,0)
+	for _, cons := range mock.account{
+		if cons.IdUser == id {
+			consumedAmount=append(consumedAmount, cons)
+		}
+	}
+	return consumedAmount
 }
 
 func (mock *db_mock) getBottles(path string) []Bottle  {
@@ -39,7 +49,7 @@ func (mock *db_mock) getBottles(path string) []Bottle  {
 	return bottles
 }
 
-func (mock *db_mock) getRecipes() []Recipe  {
+func (mock *db_mock) getRecipes(path string) []Recipe  {
 	var likesRecipe1 int = 0
 	var likesRecipe2 int = 0
 	for _, like := range mock.likes{
@@ -51,8 +61,8 @@ func (mock *db_mock) getRecipes() []Recipe  {
 		}
 	}
 	recipes := make([]Recipe, 2)
-	recipes[0]=Recipe{Name:"Rum-Cola", Id:1, Likes:likesRecipe1}
-	recipes[1]=Recipe{Name:"Vodka-O", Id:2, Likes:likesRecipe2}
+	recipes[0]=Recipe{Name:"Rum-Cola", Id:1, Likes:likesRecipe1, PathToPicture:"http://"+path+"/pictures/rumcola.jpg"}
+	recipes[1]=Recipe{Name:"Vodka-O", Id:2, Likes:likesRecipe2, PathToPicture:"http://"+path+"/pictures/vodkao.jpg"}
 	return recipes
 }
 
