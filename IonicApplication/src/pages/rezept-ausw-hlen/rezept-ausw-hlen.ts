@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, Platform} from 'ionic-angular';
+import {NavController, Platform, ToastController} from 'ionic-angular';
 import {CocktailErstellenPage} from '../cocktail-erstellen/cocktail-erstellen'
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {NativeStorage} from 'ionic-native';
@@ -14,7 +14,7 @@ export class RezeptAuswHlenPage {
   recipes;
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  constructor(public navCtrl: NavController, private backendservice: BackendServiceProvider, private platform: Platform) {
+  constructor(public navCtrl: NavController, private backendservice: BackendServiceProvider, private platform: Platform, private toastCtrl: ToastController) {
     that = this;
     backendservice.loadRecipes().then(function (result) {
       that.recipes = result;
@@ -34,10 +34,6 @@ export class RezeptAuswHlenPage {
             duration: 3000,
             showCloseButton: true,
             closeButtonText: "OK"
-          });
-
-          toast.onDidDismiss(() => {
-            that.navCtrl.push(RezeptAuswHlenPage)
           });
 
           toast.present();
