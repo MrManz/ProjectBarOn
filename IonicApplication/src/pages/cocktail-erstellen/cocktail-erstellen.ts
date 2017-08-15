@@ -1,6 +1,6 @@
 import {Component, NgZone} from '@angular/core';
 import {NativeStorage} from 'ionic-native';
-import {NavParams, AlertController, Platform, ModalController, ToastController, NavController} from 'ionic-angular';
+import {NavParams, AlertController, Platform, ModalController, ToastController} from 'ionic-angular';
 import {BackendServiceProvider} from '../../providers/backend-service/backend-service';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import { RezeptAuswHlenPage } from '../rezept-ausw-hlen/rezept-ausw-hlen';
@@ -29,8 +29,7 @@ export class CocktailErstellenPage {
               private platform: Platform,
               private zone: NgZone,
               private modal: ModalController,
-              private toastCtrl: ToastController,
-              private navCtrl: NavController) {
+              private toastCtrl: ToastController) {
     that = this
     this.readBottlesData().then(function (bottles) {
         if (that.params.data.RecipeID && that.params.data.RecipeName) {
@@ -231,7 +230,6 @@ export class CocktailErstellenPage {
             });
 
             toast.onDidDismiss(() => {
-              that.navCtrl.push(RezeptAuswHlenPage)
             });
 
             toast.present();
