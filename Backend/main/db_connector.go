@@ -1,5 +1,5 @@
 package main
-
+//Interface für alle DB-Verbindungen die von der Faktory erzeugt werden können
 type db_connector interface {
 	addToBill(idUser string,idBottle int, amount int)
 	getAmount(id string) []ConsumedAmount
@@ -9,6 +9,7 @@ type db_connector interface {
 	likeCocktail(idUser string, idRecipe int)
 }
 
+//Strucktur, die
 type Bottle struct {
 	Id int
 	Name string

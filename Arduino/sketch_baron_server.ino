@@ -14,30 +14,19 @@ const char* password = "lassmichrein";
 // Create an instance of the server
 WiFiServer server(LISTEN_PORT);
 
-// Variables to be exposed to the API
-int temperature;
-int humidity;
-
-// Declare functions to be exposed to the API
-int ledControl(String command);
-
 void setup(void)
 {
   // Start Serial
   Serial.begin(115200);
 
-  // Init variables and expose them to REST API
-  temperature = 24;
-  humidity = 40;
-  rest.variable("temperature",&temperature);
-  rest.variable("humidity",&humidity);
-
-  // Function to be exposed
-  rest.function("led",ledControl);
-
   // Give name & ID to the device (ID should be 6 characters long)
   rest.set_id("1");
   rest.set_name("the_baron");
+
+  IPAddress ip(192,168,137,170);
+  IPAddress gateway(192,168,137,1);
+  IPAddress subnet(255,255,255,0);
+  WiFi.config(ip, gateway, subnet);
 
   // Connect to WiFi
   WiFi.begin(ssid, password);
@@ -56,6 +45,9 @@ void setup(void)
   Serial.println(WiFi.localIP());
 
   pinMode(D5, OUTPUT);
+  pinMode(D6, OUTPUT);
+  pinMode(D7, OUTPUT);
+  pinMode(D8, OUTPUT);
 }
 
 void loop() {
@@ -70,14 +62,4 @@ void loop() {
   }
   rest.handle(client);
 
-}
-
-// Custom function accessible by the API
-int ledControl(String command) {
-
-  // Get state from command
-  int state = command.toInt();
-
-  digitalWrite(D5 ,state);
-  return 1;
 }
