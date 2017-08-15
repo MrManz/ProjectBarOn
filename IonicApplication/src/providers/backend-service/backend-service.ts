@@ -11,7 +11,7 @@ import { Http, Headers, RequestOptions} from '@angular/http'
 @Injectable()
 export class BackendServiceProvider {
   data;
-  host = "http://localhost:8080" // "http://10.0.2.2:8080"
+  host =  "http://localhost:8080" //"http://10.0.2.2:8080"
 
   constructor(private http: Http) {
   }
@@ -77,7 +77,7 @@ export class BackendServiceProvider {
       headers.append("Authorization", userToken);
       let options = new RequestOptions({ headers: headers });
 
-      this.http.post(this.host+'/getamount', options)
+      this.http.get(this.host+'/getamount', options)
         .subscribe(data => {
           resolve(data);
         }, error => {

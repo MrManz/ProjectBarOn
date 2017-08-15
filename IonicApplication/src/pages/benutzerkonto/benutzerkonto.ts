@@ -50,6 +50,7 @@ export class BenutzerkontoPage {
         {
           text: 'Ja',
           handler: () => {
+            alert.dismiss();
             that.doLogout()
           }
         }]
