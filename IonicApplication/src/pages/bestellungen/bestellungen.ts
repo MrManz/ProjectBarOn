@@ -24,25 +24,16 @@ export class BestellungenPage {
         that.backendservice.loadOrderedDrinks(user["token"]).then(function (requestAnswer) {
             that.readBottlesData().then(function (bottles) {
               // let ordersResult = requestAnswer as Array<number>;
-              // for (let order of ordersResult) {
-              //   let tmpObj = {
-              //     Name: bottles[order["Id"]].Name,
-              //     PathToPicture: bottles[order["Id"]].PathToPicture,
-              //     Volume: order["Volume"],
-              //     Id: order["Id"]
-              //   }
-              //   that.orders.push(tmpObj);
-              // }
+
                let ordersResult = JSON.parse(requestAnswer['_body']);
-               for (var order in ordersResult) {
-                 let tmp = {
-                   Id: order,
-                   Name: bottles[order].Name,
-                   PathToPicture: bottles[order].PathToPicture,
-                   Volume: ordersResult[order]
+               ordersResult.forEach(function (order) {
+                 let temp = {
+                   Name: bottles[order.IdBottle].Name,
+                   PathToPicture: bottles[order.IdBottle].PathToPicture,
+                   Volume: order.Amount
                  }
-                 that.orders.push(tmp);
-               }
+                 that.orders.push(temp)
+               })
             }),function (error) {
               console.log(error);
             };
