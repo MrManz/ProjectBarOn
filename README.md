@@ -1,5 +1,5 @@
 # ProjectBarOn
-Project mobile applications
+Projekt zur Vorlesung "Entwicklung mobiler Applikationen"
 
 Automatische Cocktailmischmaschine:
 - Authentifizierung (via Google API)
