@@ -158,7 +158,6 @@ export class CocktailErstellenPage {
           text: 'Ändern',
           handler: data => {
             that.name = "Mix your own Drink"
-            console.log('Checkbox data:', data);
             for (let selectedBottles of data) {
               if (!(that.cocktail.some(function (bottle) {
                   return that.hasValue(bottle, "Id", selectedBottles["Id"]);
@@ -180,6 +179,9 @@ export class CocktailErstellenPage {
                 that.cocktail.splice(index, 1);
               }
             }
+            if(data.length == 0){
+              that.cocktail = [];
+            }
           }
         });
         alert.present();
@@ -190,13 +192,15 @@ export class CocktailErstellenPage {
   }
   //Eventlistener nach dem Klick auf eine Zutat hinzufügen oder entfernen
   MixWithOrientationClick(id) {
-    if (!(this.eventSet)) {
-      window.addEventListener("deviceorientation", this.deviceOrientationChanged)
-      that.ItemClickedId = id;
-      that.eventSet = true;
-    } else {
-      window.removeEventListener("deviceorientation", this.deviceOrientationChanged);
-      that.eventSet = false;
+    if (!(this.platform.is('core')) || !(this.platform.is('mobileweb'))) {
+      if (!(this.eventSet)) {
+        window.addEventListener("deviceorientation", this.deviceOrientationChanged)
+        that.ItemClickedId = id;
+        that.eventSet = true;
+      } else {
+        window.removeEventListener("deviceorientation", this.deviceOrientationChanged);
+        that.eventSet = false;
+      }
     }
   }
   //verändern der Menge je nachdem wie das Gerät gekippt wurde
